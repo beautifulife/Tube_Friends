@@ -13,9 +13,17 @@
   "author": "Seunguk Kim <beautifulife.github.io>",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "add": "^2.0.6",
     "express": "^4.16.4",
+    "mongoose": "^5.4.17",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "yarn": "^1.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -39,6 +47,8 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "normalize-scss": "^7.0.1",
+    "prop-types": "^15.7.2",
+    "redux-logger": "^3.0.6",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
