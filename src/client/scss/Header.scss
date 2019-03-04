@@ -19,6 +19,7 @@ $base-color: #FF0000;
     padding: 1rem;
 
     .logo {
+      font-family: 'Roboto Condensed', sans-serif;
       font-size: 1.5rem;
       color: $base-color;
       transition: all 0.3s ease-in-out;
@@ -95,7 +96,7 @@ $base-color: #FF0000;
       border: 1px solid #eee;
       border-radius: 100%;
       font-size: 1.1rem;
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(0, 0, 0, 0.6);
       transition: all 0.3s ease-in-out;
 
       &:hover {
@@ -137,6 +138,43 @@ $base-color: #FF0000;
 
       &:hover {
         color: $base-color;
+      }
+
+      &.active {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &__menu {
+    visibility: hidden;
+    position: fixed;
+    top: 4rem;
+    right: 0;
+    bottom: 0;
+    transform: translateX(250px);
+    width: 250px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    &__list {
+      list-style: none;
+
+      &__item {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+
+        &:hover {
+          // border-bottom: 1px solid $base-color;
+          // box-shadow: 0px 2px 5px $base-color;
+          color: white;
+          background-color: $base-color;
+        }
       }
     }
   }
