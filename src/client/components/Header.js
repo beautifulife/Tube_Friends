@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
+import LoginContainer from '../containers/LoginContainer';
 
 export default class Header extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ export default class Header extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
   }
 
@@ -22,6 +25,12 @@ export default class Header extends Component {
     this.setState({
       inputValue: ev.currentTarget.value.trim()
     });
+  }
+
+  handleLoginClick(ev) {
+    const { onLoginClick } = this.props;
+
+    onLoginClick();
   }
 
   handleMenuClick(ev) {
@@ -38,22 +47,23 @@ export default class Header extends Component {
 
   render() {
     const { isMenuActive, inputValue } = this.state;
+    const { isLoginActive } = this.props;
 
     return (
       <div className="Header">
         <nav className="Header__nav">
           <div className="Header__logo">
-            <a href="/">
+            <Link to="/">
               <span className="logo">Tube Friends</span>
-            </a>
+            </Link>
           </div>
           <div className="Header__sort">
             <ul className="Header__sort__list">
               <li className="Header__sort__list__item">
-                <a href="#">hottest</a>
+                <Link to="#">hottest</Link>
               </li>
               <li className="Header__sort__list__item">
-                <a href="#">newest</a>
+                <Link to="#">newest</Link>
               </li>
             </ul>
           </div>
@@ -66,11 +76,17 @@ export default class Header extends Component {
             />
           </div>
           <div className="Header__utils">
-            <a href="#" className="Header__utils__plus">
+            <Link to="#" className="Header__utils__plus">
               <FontAwesomeIcon icon={faPen} />
-            </a>
-            <a href="#" className="Header__utils__login">Login</a>
-            <a href="#" className="Header__utils__sign-up">Sign Up</a>
+            </Link>
+            <button
+              type="button"
+              className="Header__utils__login"
+              onClick={this.handleLoginClick}
+            >
+              Login
+            </button>
+            {/* <Link to="#" className="Header__utils__sign-up">Sign Up</Link> */}
             <button
               type="button"
               className={isMenuActive ? 'Header__utils__menu active' : 'Header__utils__menu'}
@@ -82,20 +98,21 @@ export default class Header extends Component {
         </nav>
         <div className={isMenuActive ? 'Header__menu active' : 'Header__menu'}>
           <ul className="Header__menu__list">
-            <a href="#">
+            <Link to="#">
               <li className="Header__menu__list__item">About</li>
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="#">
               <li className="Header__menu__list__item">Notice</li>
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="#">
               <li className="Header__menu__list__item">Terms of service</li>
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="#">
               <li className="Header__menu__list__item">Privacy policy</li>
-            </a>
+            </Link>
           </ul>
         </div>
+        {isLoginActive && <LoginContainer />}
       </div>
     );
   }

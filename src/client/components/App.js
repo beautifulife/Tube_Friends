@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from './Header';
+import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom';
+import HeaderContainer from '../containers/HeaderContainer';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
     };
   }
@@ -14,10 +14,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <h1>boilerplate</h1>
-      </div>
+      <Router>
+        <div className="App">
+          <HeaderContainer />
+        </div>
+      </Router>
     );
   }
 }

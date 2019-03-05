@@ -1,0 +1,89 @@
+.Login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &__contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 500px;
+    height: 300px;
+    padding: 0.5rem;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    background-color: #fcfcfc;
+
+    &__wrapper {
+
+    }
+
+    &__title {
+      font-size: 0.9rem;
+      margin-left: 5px;
+      margin-bottom: 10px;
+    }
+
+    &__google-btn {
+      width: 210px;
+      height: 40px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        box-shadow: 1px 5px 6px 3px rgba(0, 0, 0, 0.1);
+
+        span {
+          &:first-of-type {
+            color: #EA4335;
+          }
+        }
+      }
+      
+      &:active {
+        background-color: #e5e5e5;
+        box-shadow: none;
+        transition-duration: 10ms;
+      }
+
+      span {
+        padding: 10px;
+      }
+
+      &__logo {
+        font-size: 1.3rem;
+      }
+    }
+
+    &__no-account {
+      margin-left: 5px;
+      font-size: 0.8rem;
+
+      span {
+        margin: 10px;
+        border-bottom: 1px solid black;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+      }
+    }
+
+    &__close-btn {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 1.4rem;
+    }
+  }
+}
