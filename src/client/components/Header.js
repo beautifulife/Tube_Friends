@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
 import LoginContainer from '../containers/LoginContainer';
+import toggleSignInGoogle from '../utils/googleLogin';
 
 export default class Header extends Component {
   constructor(props) {

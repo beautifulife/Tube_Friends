@@ -11,6 +11,7 @@ export default class Login extends Component {
       isSignUp: false
     };
     this.handleCloseClick = this.handleCloseClick.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLoginToggle = this.handleLoginToggle.bind(this);
   }
 
@@ -26,8 +27,13 @@ export default class Login extends Component {
     }
   }
 
+  handleLoginClick(ev) {
+    const { signInGoogle } = this.props;
+
+    signInGoogle();
+  }
+
   handleLoginToggle(ev) {
-    console.dir(ev.currentTarget, ev.target);
     if (ev.currentTarget.innerText === 'Log in') {
       this.setState({
         isSignUp: false
@@ -51,6 +57,7 @@ export default class Login extends Component {
               <button
                 type="button"
                 className="Login__contents__google-btn"
+                onClick={this.handleLoginClick}
               >
                 <span className="Login__contents__google-btn__logo">
                   <FontAwesomeIcon icon={fab.faGooglePlusG} />
@@ -68,6 +75,7 @@ export default class Login extends Component {
               <button
                 type="button"
                 className="Login__contents__google-btn"
+                onClick={this.handleLoginClick}
               >
                 <span className="Login__contents__google-btn__logo">
                   <FontAwesomeIcon icon={fab.faGooglePlusG} />
