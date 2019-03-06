@@ -3,10 +3,15 @@ import Header from '../components/Header';
 import { activateLoginPage } from '../actions';
 
 const mapStateToProps = (state) => {
-  const { isLoginActive } = state;
+  const { isLoginActive, isUserLoggedIn, photoURL, displayName } = state;
 
   return {
-    isLoginActive
+    isLoginActive,
+    isUserLoggedIn,
+    userProfile: {
+      photoURL,
+      displayName
+    }
   };
 };
 

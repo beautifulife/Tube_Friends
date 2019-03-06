@@ -20,6 +20,9 @@ export default class Header extends Component {
   }
 
   componentDidMount() {
+    // if (firebase.auth().currentUser) {
+    //   console.log('user is here', firebase.auth().currentUser);
+    // }
   }
 
   handleInputChange(ev) {
@@ -48,7 +51,14 @@ export default class Header extends Component {
 
   render() {
     const { isMenuActive, inputValue } = this.state;
-    const { isLoginActive } = this.props;
+    const {
+      isLoginActive,
+      isUserLoggedIn,
+      userProfile: {
+        photoURL,
+        displayName
+      }
+    } = this.props;
 
     return (
       <div className="Header">
@@ -80,17 +90,31 @@ export default class Header extends Component {
             <Link to="#" className="Header__utils__plus">
               <FontAwesomeIcon icon={faPen} />
             </Link>
+            {isUserLoggedIn ? (
+              <span className="Header__utils__profile">
+                <Link to={`/${displayName}`}>
+                  <img
+                    src={photoURL}
+                    alt={displayName}
+                  />
+                </Link>
+              </span>
+            ) : (
+              <button
+                type="button"
+                className="Header__utils__login"
+                onClick={this.handleLoginClick}
+              >
+                Login
+              </button>
+            )}
             <button
               type="button"
-              className="Header__utils__login"
-              onClick={this.handleLoginClick}
-            >
-              Login
-            </button>
-            {/* <Link to="#" className="Header__utils__sign-up">Sign Up</Link> */}
-            <button
-              type="button"
-              className={isMenuActive ? 'Header__utils__menu active' : 'Header__utils__menu'}
+              className={
+                isMenuActive
+                  ? 'Header__utils__menu active'
+                  : 'Header__utils__menu'
+              }
               onClick={this.handleMenuClick}
             >
               <FontAwesomeIcon icon={faBars} />

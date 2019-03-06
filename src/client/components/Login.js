@@ -8,7 +8,8 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSignUp: false
+      isSignUp: false,
+      isLoginOnProcess: false
     };
     this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -30,7 +31,9 @@ export default class Login extends Component {
   handleLoginClick(ev) {
     const { signInGoogle } = this.props;
 
-    signInGoogle();
+    this.setState({
+      isLoginOnProcess: true
+    }, signInGoogle());
   }
 
   handleLoginToggle(ev) {
@@ -46,7 +49,7 @@ export default class Login extends Component {
   }
 
   render() {
-    const { isSignUp } = this.state;
+    const { isSignUp, isLoginOnProcess } = this.state;
 
     return (
       <div className="Login" onClick={this.handleCloseClick}>
@@ -58,6 +61,7 @@ export default class Login extends Component {
                 type="button"
                 className="Login__contents__google-btn"
                 onClick={this.handleLoginClick}
+                disabled={isLoginOnProcess}
               >
                 <span className="Login__contents__google-btn__logo">
                   <FontAwesomeIcon icon={fab.faGooglePlusG} />

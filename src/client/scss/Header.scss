@@ -102,6 +102,18 @@ $base-color: #FF0000;
       }
     }
 
+    &__profile {
+      width: 35px;
+      height: 35px;
+      margin: 0.5rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      }
+    }
+
     &__login {
       margin: 0.5rem;
       padding: 7px 10px;
