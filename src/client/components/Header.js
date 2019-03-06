@@ -3,61 +3,61 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
 import LoginContainer from '../containers/LoginContainer';
-import toggleSignInGoogle from '../utils/googleLogin';
+import Menu from './Menu';
+import ProfileContainer from '../containers/ProfileContainer';
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      isMenuActive: false,
       inputValue: ''
     };
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleProfileClick = this.handleProfileClick.bind(this);
   }
 
   componentDidMount() {
-    // if (firebase.auth().currentUser) {
-    //   console.log('user is here', firebase.auth().currentUser);
-    // }
+    const { onInit, isLoginActive, isUserLoggedIn, } = this.props;
+
+    console.log(this.props);
+
+    onInit(isLoginActive, isUserLoggedIn);
   }
 
   handleInputChange(ev) {
     this.setState({
-      inputValue: ev.currentTarget.value.trim()
+      inputValue: ev.currentTarget.value
     });
   }
 
   handleLoginClick(ev) {
-    const { onLoginClick } = this.props;
+    const { onLoginClick, isLoginActive } = this.props;
 
-    onLoginClick();
+    onLoginClick(isLoginActive);
   }
 
   handleMenuClick(ev) {
-    if (ev.currentTarget.classList.contains('active')) {
-      this.setState({
-        isMenuActive: false
-      });
-    } else {
-      this.setState({
-        isMenuActive: true
-      });
-    }
+    const { onMenuToggle, isMenuActive } = this.props;
+
+    onMenuToggle(isMenuActive);
+  }
+
+  handleProfileClick(ev) {
+    const { onProfileToggle, isProfileActive } = this.props;
+
+    onProfileToggle(isProfileActive);
   }
 
   render() {
-    const { isMenuActive, inputValue } = this.state;
+    const { inputValue } = this.state;
     const {
       isLoginActive,
+      isMenuActive,
+      isProfileActive,
       isUserLoggedIn,
-      userProfile: {
-        photoURL,
-        displayName
-      }
+      userProfile: { photoURL, displayName },
     } = this.props;
 
     return (
@@ -92,12 +92,12 @@ export default class Header extends Component {
             </Link>
             {isUserLoggedIn ? (
               <span className="Header__utils__profile">
-                <Link to={`/${displayName}`}>
-                  <img
-                    src={photoURL}
-                    alt={displayName}
-                  />
-                </Link>
+                <img
+                  src={photoURL}
+                  alt={displayName}
+                  onClick={this.handleProfileClick}
+                />
+                {isProfileActive && <ProfileContainer />}
               </span>
             ) : (
               <button
@@ -112,8 +112,8 @@ export default class Header extends Component {
               type="button"
               className={
                 isMenuActive
-                  ? 'Header__utils__menu active'
-                  : 'Header__utils__menu'
+                  ? 'Header__utils__menu-btn active'
+                  : 'Header__utils__menu-btn'
               }
               onClick={this.handleMenuClick}
             >
@@ -122,20 +122,7 @@ export default class Header extends Component {
           </div>
         </nav>
         <div className={isMenuActive ? 'Header__menu active' : 'Header__menu'}>
-          <ul className="Header__menu__list">
-            <Link to="#">
-              <li className="Header__menu__list__item">About</li>
-            </Link>
-            <Link to="#">
-              <li className="Header__menu__list__item">Notice</li>
-            </Link>
-            <Link to="#">
-              <li className="Header__menu__list__item">Terms of service</li>
-            </Link>
-            <Link to="#">
-              <li className="Header__menu__list__item">Privacy policy</li>
-            </Link>
-          </ul>
+          <Menu />
         </div>
         {isLoginActive && <LoginContainer />}
       </div>

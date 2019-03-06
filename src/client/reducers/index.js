@@ -2,6 +2,12 @@ import * as Types from '../actions/actionTypes';
 
 const initialState = {
   isLoginActive: false,
+  isMenuActive: false,
+  isProfileActive: false,
+  isUserLoggedIn: false,
+  accessToken: '',
+  displayName: '',
+  photoURL: ''
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -17,13 +23,22 @@ const rootReducer = (state = initialState, action) => {
   case Types.USER_LOG_IN:
     newState.isLoginActive = action.isLoginActive;
     newState.isUserLoggedIn = action.isUserLoggedIn;
+    newState.accessToken = action.accessToken;
     newState.displayName = action.displayName;
     newState.photoURL = action.photoURL;
 
     return newState;
 
   case Types.USER_LOG_OUT:
-    newState.isUserLoggedIn = action.isUserLoggedIn;
+    return initialState;
+
+  case Types.MENU_TOGGLE:
+    newState.isMenuActive = action.isMenuActive;
+
+    return newState;
+
+  case Types.PROFILE_TOGGLE:
+    newState.isProfileActive = action.isProfileActive;
 
     return newState;
 

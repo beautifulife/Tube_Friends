@@ -1,23 +1,61 @@
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { activateLoginPage } from '../actions';
+import {
+  activateLoginPage,
+  logInUser,
+  toggleMenu,
+  toggleProfile
+} from '../actions';
+import { auth } from '../utils/firebase';
 
-const mapStateToProps = (state) => {
-  const { isLoginActive, isUserLoggedIn, photoURL, displayName } = state;
+const mapStateToProps = state => {
+  const {
+    isLoginActive,
+    isMenuActive,
+    isProfileActive,
+    isUserLoggedIn,
+    displayName,
+    photoURL
+  } = state;
 
   return {
     isLoginActive,
+    isMenuActive,
+    isProfileActive,
     isUserLoggedIn,
     userProfile: {
-      photoURL,
-      displayName
+      displayName,
+      photoURL
     }
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  onLoginClick: () => {
-    dispatch(activateLoginPage());
+  onInit: (isLoginActive, isUserLoggedIn) => {
+    auth.onAuthStateChanged(user => {
+      console.log('auth load', user);
+      if (user && !isLoginActive) {
+        dispatch(
+          logInUser(
+            JSON.parse(JSON.stringify(user)),
+            isLoginActive,
+            !isUserLoggedIn
+          )
+        );
+      }
+    });
+  },
+  onLoginClick: isLoginActive => {
+    dispatch(activateLoginPage(!isLoginActive));
+  },
+  onLogOutClick: () => {
+    auth.signOut();
+  },
+  onMenuToggle: isMenuActive => {
+    dispatch(toggleMenu(!isMenuActive));
+  },
+  onProfileToggle: isProfileActive => {
+    dispatch(toggleProfile(!isProfileActive));
   }
 });
 

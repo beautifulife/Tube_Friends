@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -8,55 +7,59 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSignUp: false,
-      isLoginOnProcess: false
+      isLoginOnProcess: false,
+      isSignUpActive: false
     };
     this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLoginToggle = this.handleLoginToggle.bind(this);
   }
 
-  componentDidMount() {
-  }
-
   handleCloseClick(ev) {
-    if (ev.target.classList.contains('Login') ||
-        ev.currentTarget.classList.contains('Login__contents__close-btn')) {
-      const { onCloseClick } = this.props;
+    if (
+      ev.target.classList.contains('Login') ||
+      ev.currentTarget.classList.contains('Login__contents__close-btn')
+    ) {
+      const { onCloseClick, isLoginActive } = this.props;
 
-      onCloseClick();
+      onCloseClick(isLoginActive);
     }
   }
 
   handleLoginClick(ev) {
-    const { signInGoogle } = this.props;
+    const { onGoogleSignIn, isLoginActive, isUserLoggedIn } = this.props;
 
-    this.setState({
-      isLoginOnProcess: true
-    }, signInGoogle());
+    this.setState(
+      {
+        isLoginOnProcess: true
+      },
+      onGoogleSignIn(isLoginActive, isUserLoggedIn)
+    );
   }
 
   handleLoginToggle(ev) {
     if (ev.currentTarget.innerText === 'Log in') {
       this.setState({
-        isSignUp: false
+        isSignUpActive: false
       });
     } else {
       this.setState({
-        isSignUp: true
+        isSignUpActive: true
       });
     }
   }
 
   render() {
-    const { isSignUp, isLoginOnProcess } = this.state;
+    const { isLoginOnProcess, isSignUpActive } = this.state;
 
     return (
       <div className="Login" onClick={this.handleCloseClick}>
         <div className="Login__contents">
-          {isSignUp ? (
+          {isSignUpActive ? (
             <div className="Login__contents__wrapper">
-              <div className="Login__contents__title">Sign up on Tube Friends</div>
+              <div className="Login__contents__title">
+                Sign up on Tube Friends
+              </div>
               <button
                 type="button"
                 className="Login__contents__google-btn"

@@ -1,0 +1,54 @@
+.Profile {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 20;
+  width: max-content;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #fcfcfc;
+  animation-duration: 0.7s;
+  animation-name: fadein;
+
+  &__list {
+    display: block;
+
+    li {
+      list-style: none;
+      padding: 10px 20px;
+    }
+
+    &__title {
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      font-weight: bold;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        color: #ff0000;
+      }
+
+      span {
+        margin: 0 5px 0 10px;
+      }
+    }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

@@ -1,0 +1,16 @@
+.Menu {
+  &__list {
+    list-style: none;
+  
+    &__item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      transition: all 0.3s ease-in-out;
+  
+      &:hover {
+        color: white;
+        background-color: $base-color;
+      }
+    }
+  }
+}

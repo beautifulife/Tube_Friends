@@ -43,6 +43,7 @@
     "camelcase":"off",
     "array-callback-return":"off",
     "no-new":"off",
+    "arrow-parens":"off",
     "arrow-body-style": 0,
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,

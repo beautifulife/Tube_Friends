@@ -1,25 +1,34 @@
 import * as Types from './actionTypes';
 
-export const activateLoginPage = () => ({
+export const activateLoginPage = isLoginActive => ({
   type: Types.LOGIN_PAGE_ACTIVATE,
-  isLoginActive: true
+  isLoginActive
 });
 
-export const deactivateLoginPage = () => ({
+export const deactivateLoginPage = isLoginActive => ({
   type: Types.LOGIN_PAGE_DEACTIVATE,
-  isLoginActive: false
+  isLoginActive
 });
 
-export const logInUser = (user, accessToken) => ({
+export const logInUser = (user, isLoginActive, isUserLoggedIn) => ({
   type: Types.USER_LOG_IN,
-  isUserLoggedIn: true,
-  isLoginActive: false,
+  isLoginActive,
+  isUserLoggedIn,
+  accessToken: user.stsTokenManager.accessToken,
   displayName: user.displayName,
-  photoURL: user.photoURL,
-  accessToken
+  photoURL: user.photoURL
 });
 
 export const logOutUser = () => ({
-  type: Types.USER_LOG_OUT,
-  isUserLoggedIn: false
+  type: Types.USER_LOG_OUT
+});
+
+export const toggleMenu = isMenuActive => ({
+  type: Types.MENU_TOGGLE,
+  isMenuActive
+});
+
+export const toggleProfile = isProfileActive => ({
+  type: Types.PROFILE_TOGGLE,
+  isProfileActive
 });

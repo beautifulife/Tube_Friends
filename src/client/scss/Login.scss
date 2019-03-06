@@ -24,7 +24,6 @@
     background-color: #fcfcfc;
 
     &__wrapper {
-
     }
 
     &__title {
@@ -46,11 +45,11 @@
 
         span {
           &:first-of-type {
-            color: #EA4335;
+            color: #ea4335;
           }
         }
       }
-      
+
       &:active {
         background-color: #e5e5e5;
         box-shadow: none;
