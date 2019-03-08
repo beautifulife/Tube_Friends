@@ -20,6 +20,22 @@ const rootReducer = (state = initialState, action) => {
 
     return newState;
 
+  case Types.MENU_TOGGLE:
+    newState.isMenuActive = action.isMenuActive;
+
+    return newState;
+
+  case Types.PROFILE_TOGGLE:
+    newState.isProfileActive = action.isProfileActive;
+
+    return newState;
+
+  case Types.STORIES_SEARCH:
+    newState.stories = action.stories;
+    newState.page = action.page;
+
+    return newState;
+
   case Types.USER_LOG_IN:
     newState.isLoginActive = action.isLoginActive;
     newState.isUserLoggedIn = action.isUserLoggedIn;
@@ -31,16 +47,6 @@ const rootReducer = (state = initialState, action) => {
 
   case Types.USER_LOG_OUT:
     return initialState;
-
-  case Types.MENU_TOGGLE:
-    newState.isMenuActive = action.isMenuActive;
-
-    return newState;
-
-  case Types.PROFILE_TOGGLE:
-    newState.isProfileActive = action.isProfileActive;
-
-    return newState;
 
   default:
     return newState;

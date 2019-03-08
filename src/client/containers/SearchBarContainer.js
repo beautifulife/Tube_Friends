@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
-import { logOutUser } from '../actions';
+import { searchStories } from '../actions';
 
 const mapStateToProps = state => {
   return state;
@@ -25,12 +25,21 @@ const mapDispatchToProps = dispatch => ({
     const uri = `/api/search?keyword=${inputValue}`;
     const encodedUri = encodeURI(uri);
 
-    const res = await fetch(encodedUri, {
-      Authorization: `Bearer ${accessToken}`
-    });
-
-    if (res.status !== 200) {
-      console.error(`${res.status}`);
+    try {
+      let res = await fetch(encodedUri, {
+        Authorization: `Bearer ${accessToken}`
+      });
+  
+      if (res.status !== 200) {
+        throw new Error(`responsed ${res.status}`);
+      }
+  
+      res = await res.json();
+      dispatch(
+        searchStories(res.stories, res.page)
+      );
+    } catch (err) {
+      console.error(err);
     }
   }
 });

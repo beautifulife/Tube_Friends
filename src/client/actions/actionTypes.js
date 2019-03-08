@@ -1,6 +1,7 @@
 export const LOGIN_PAGE_ACTIVATE = 'LOGIN_PAGE_ACTIVATE';
 export const LOGIN_PAGE_DEACTIVATE = 'LOGIN_PAGE_DEACTIVATE';
-export const USER_LOG_IN = 'USER_LOG_IN';
-export const USER_LOG_OUT = 'USER_LOG_OUT';
 export const MENU_TOGGLE = 'MENU_TOGGLE';
 export const PROFILE_TOGGLE = 'PROFILE_TOGGLE';
+export const STORIES_SEARCH = 'STORIES_SEARCH';
+export const USER_LOG_IN = 'USER_LOG_IN';
+export const USER_LOG_OUT = 'USER_LOG_OUT';

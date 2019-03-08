@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const { verifyIdToken } = require('./middlewares/firebase');
 const verifyAccessToken = require('./middlewares/verifyAccessToken');
+const verifySearchKeyword = require('./middlewares/verifySearchKeyword');
 
 const Users = require('./models/User');
 const Categories = require('./models/Category');
@@ -55,59 +56,35 @@ app.post(
   }
 );
 
-app.get('/api/search', async (req, res, next) => {
-  console.log(req.query);
+app.get('/api/search', verifySearchKeyword, async (req, res, next) => {
   try {
-    let keyword = req.query.keyword;
+    const page = res.locals.page;
+    const keyword = res.locals.keyword;
 
-    if (keyword.match(/[^a-zA-Z0-9\s]|\s\s/)) {
-      keyword = keyword.replace(/[^a-zA-Z0-9\s]/g, '');
-      keyword = keyword.replace(/\s\s/g, ' ');
-
-      console.log('invalid character');
-    }
-
-    if (keyword.trim().length < 2) {
-      console.log('invalid character');
-      return next(createError(400));
-    }
-
-    const page = req.query.page || 1;
-
-    if (typeof keyword === 'undefined' || keyword.length < 2) {
-      return next(createError(400));
-    }
-
-    try {
-      console.log(keyword);
-      const stories = await Stories.find({
-        $or: [
-          {
-            title: {
-              $regex: keyword,
-              $options: 'ig'
-            }
-          },
-          {
-            summary: {
-              $regex: keyword,
-              $options: 'ig'
-            }
+    const stories = await Stories.find({
+      $or: [
+        {
+          title: {
+            $regex: keyword,
+            $options: 'ig'
           }
-        ]
-      });
+        },
+        {
+          summary: {
+            $regex: keyword,
+            $options: 'ig'
+          }
+        }
+      ]
+    });
 
-      res.json({
-        stories,
-        page
-      });
-    } catch (err) {
-      console.error(err);
-      return next(createError(500));
-    }
+    res.json({
+      stories,
+      page
+    });
   } catch (err) {
     console.error(err);
-    return next(createError(400));
+    return next(createError(500));
   }
 });
 
@@ -142,16 +119,21 @@ app.post('/api/auth', async (req, res, next) => {
     });
   } catch (err) {
     console.error(err);
-    return next(createError(500));
+    next(createError(500));
   }
 });
 
 app.get('/api/categories', async (req, res, next) => {
-  const categories = await Categories.find({}, 'title');
+  try {
+    const categories = await Categories.find({}, 'title');
 
-  res.json({
-    categories
-  });
+    res.json({
+      categories
+    });
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
+  }
 });
 
 app.post('/api/admin/categories', async (req, res, next) => {
