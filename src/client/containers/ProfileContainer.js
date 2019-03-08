@@ -15,6 +15,7 @@ const mapDispatchToProps = dispatch => ({
   onLogOutClick: () => {
     auth.signOut();
     dispatch(logOutUser());
+    window.location.reload();
   }
 });
 

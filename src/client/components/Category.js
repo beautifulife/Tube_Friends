@@ -8,31 +8,35 @@ export default class Category extends Component {
     onInit();
   }
 
-  renderCategories(categories) {
+  renderCategories() {
+    const { categories, match } = this.props;
+
     return categories.map(category => {
       return (
         <li key={category._id}>
-          <Link to="#">{category.title}</Link>
+          <Link to={`/${match.params.sort}/${category.title}`}>{category.title}</Link>
         </li>
       );
     });
   }
 
   render() {
-    const { categories } = this.props;
+    const { categories, isUserLoggedIn, username, match } = this.props;
 
     return (
       <div className="Category">
         <ul className="Category__list">
           {categories.length ? (
             <Fragment>
-              <li className="main-btn my-feed">
-                <Link to="#">My Feed</Link>
-              </li>
+              {isUserLoggedIn && (
+                <li className="main-btn my-feed">
+                  <Link to={`/@${username}`}>My Feed</Link>
+                </li>
+              )}
               <li className="main-btn">
-                <Link to="#">All Categories</Link>
+                <Link to={`/${match.params.sort}`}>All Categories</Link>
               </li>
-              {this.renderCategories(categories)}
+              {this.renderCategories()}
             </Fragment>
           ) : (
             <li>Loading...</li>

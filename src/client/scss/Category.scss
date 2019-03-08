@@ -19,6 +19,18 @@
           border-bottom: 1px solid #eee;
         }
       }
+
+      a {
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          color: $base-color;
+        }
+      }
+
+      &.active {
+        color: $base-color;
+      }
     }
   }
 }

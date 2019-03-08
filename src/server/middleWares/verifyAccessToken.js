@@ -7,7 +7,7 @@ const verifyAccessToken = (req, res, next) => {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
 
-    req.accessToken = bearerToken;
+    res.locals.accessToken = bearerToken;
     next();
   } else {
     next(createError(403));

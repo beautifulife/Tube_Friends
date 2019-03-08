@@ -10,18 +10,23 @@ export const deactivateLoginPage = () => ({
   isLoginActive: false
 });
 
+export const getCategories = categories => ({
+  type: Types.GET_CATEGORIES,
+  categories
+});
+
 export const logInUser = (user) => ({
   type: Types.USER_LOG_IN,
   isLoginActive: false,
   isUserLoggedIn: true,
   accessToken: user.stsTokenManager.accessToken,
   displayName: user.displayName,
-  photoURL: user.photoURL
+  photoURL: user.photoURL,
+  username: user.email.split('@')[0]
 });
 
 export const logOutUser = () => ({
-  type: Types.USER_LOG_OUT,
-  isUserLoggedIn: false
+  type: Types.USER_LOG_OUT
 });
 
 export const searchStories = (stories, page) => ({

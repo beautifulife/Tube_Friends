@@ -66,13 +66,13 @@ app.get('/api/search', verifySearchKeyword, async (req, res, next) => {
         {
           title: {
             $regex: keyword,
-            $options: 'ig'
+            $options: 'i'
           }
         },
         {
           summary: {
             $regex: keyword,
-            $options: 'ig'
+            $options: 'i'
           }
         }
       ]
@@ -105,11 +105,13 @@ app.post('/api/auth', async (req, res, next) => {
       });
     }
 
+    const username = email.split('@')[0];
     const newUser = new Users({
       uid,
       displayName,
       photoURL,
-      email
+      email,
+      username
     });
 
     await newUser.save();

@@ -28,19 +28,19 @@ export default class App extends Component {
               {/* <Route path="/search" component={SearchPage} /> */}
               <Route
                 path="/:sort/:category"
-                render={() => (
+                render={(props) => (
                   <Fragment>
-                    <CategoryContainer />
-                    <ContentsList />
+                    <CategoryContainer {...props} />
+                    <ContentsList {...props} />
                   </Fragment>
                 )}
               />
               <Route
                 path="/:sort"
-                render={() => (
+                render={(props) => (
                   <Fragment>
-                    <CategoryContainer />
-                    <ContentsList />
+                    <CategoryContainer {...props} />
+                    <ContentsList {...props} />
                   </Fragment>
                 )}
               />

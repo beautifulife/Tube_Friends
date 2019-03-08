@@ -6,16 +6,23 @@ const initialState = {
   isProfileActive: false,
   isUserLoggedIn: false,
   accessToken: '',
+  categories: [],
   displayName: '',
   photoURL: '',
   page: 0,
-  stories: []
+  stories: [],
+  username: ''
 };
 
 const rootReducer = (state = initialState, action) => {
   const newState = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {
+  case Types.GET_CATEGORIES:
+    newState.categories = action.categories;
+
+    return newState;
+
   case Types.LOGIN_PAGE_ACTIVATE:
   case Types.LOGIN_PAGE_DEACTIVATE:
     newState.isLoginActive = action.isLoginActive;
@@ -44,6 +51,7 @@ const rootReducer = (state = initialState, action) => {
     newState.accessToken = action.accessToken;
     newState.displayName = action.displayName;
     newState.photoURL = action.photoURL;
+    newState.username = action.username;
 
     return newState;
 

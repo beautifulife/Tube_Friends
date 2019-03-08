@@ -51,7 +51,7 @@ export default class Header extends Component {
     return (
       <div className="Header">
         <nav className="Header__nav">
-          <div className="Header__logo">
+          <div className="Header__title">
             <Link to="/">
               <span className="logo">Tube Friends</span>
             </Link>

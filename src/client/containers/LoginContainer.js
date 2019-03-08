@@ -31,8 +31,9 @@ const mapDispatchToProps = dispatch => ({
             logInUser(res.user)
           );
         } catch (err) {
-          auth.signOut();
           console.error(err);
+          auth.signOut();
+          window.location.reload();
         }
       })
       .catch(error => {

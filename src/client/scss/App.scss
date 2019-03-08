@@ -17,15 +17,23 @@ body {
 }
 
 a,
-ul,
 input,
 button {
   all: unset;
 }
 
+ul, p {
+  margin: 0;
+  padding: 0;
+}
+
 a,
 button {
   cursor: pointer;
+}
+
+li {
+  list-style: none;
 }
 
 .App {
@@ -35,6 +43,10 @@ button {
 
   &__section {
     display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 1rem;
+    max-width: 1400px;
     height: 100%;
   }
 }

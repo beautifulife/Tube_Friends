@@ -1,6 +1,10 @@
+$base-color: #ff0000;
+
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono');
 @import "../../../node_modules/normalize-scss/sass/normalize/import-now";
 @import 'App';
+@import 'Category';
+@import 'ContentsList';
 @import 'Header';
 @import 'Login';
 @import 'Menu';
