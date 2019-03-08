@@ -7,7 +7,9 @@ const initialState = {
   isUserLoggedIn: false,
   accessToken: '',
   displayName: '',
-  photoURL: ''
+  photoURL: '',
+  page: 0,
+  stories: []
 };
 
 const rootReducer = (state = initialState, action) => {

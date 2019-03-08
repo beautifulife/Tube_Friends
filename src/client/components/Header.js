@@ -3,39 +3,28 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
 import LoginContainer from '../containers/LoginContainer';
-import Menu from './Menu';
 import ProfileContainer from '../containers/ProfileContainer';
+import SearchBar from '../containers/SearchBarContainer';
+import Menu from './Menu';
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      inputValue: ''
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
     this.handleProfileClick = this.handleProfileClick.bind(this);
   }
 
   componentDidMount() {
-    const { onInit, isLoginActive, isUserLoggedIn, } = this.props;
+    const { onInit, isLoginActive } = this.props;
 
-    console.log(this.props);
-
-    onInit(isLoginActive, isUserLoggedIn);
-  }
-
-  handleInputChange(ev) {
-    this.setState({
-      inputValue: ev.currentTarget.value
-    });
+    onInit(isLoginActive);
   }
 
   handleLoginClick(ev) {
-    const { onLoginClick, isLoginActive } = this.props;
+    const { onLoginClick } = this.props;
 
-    onLoginClick(isLoginActive);
+    onLoginClick();
   }
 
   handleMenuClick(ev) {
@@ -51,7 +40,6 @@ export default class Header extends Component {
   }
 
   render() {
-    const { inputValue } = this.state;
     const {
       isLoginActive,
       isMenuActive,
@@ -79,12 +67,7 @@ export default class Header extends Component {
             </ul>
           </div>
           <div className="Header__search">
-            <input
-              value={inputValue}
-              placeholder="search keyword"
-              className="Header__search__input"
-              onChange={this.handleInputChange}
-            />
+            <SearchBar />
           </div>
           <div className="Header__utils">
             <Link to="#" className="Header__utils__plus">

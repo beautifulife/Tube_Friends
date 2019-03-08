@@ -20,20 +20,20 @@ export default class Login extends Component {
       ev.target.classList.contains('Login') ||
       ev.currentTarget.classList.contains('Login__contents__close-btn')
     ) {
-      const { onCloseClick, isLoginActive } = this.props;
+      const { onCloseClick } = this.props;
 
-      onCloseClick(isLoginActive);
+      onCloseClick();
     }
   }
 
   handleLoginClick(ev) {
-    const { onGoogleSignIn, isLoginActive, isUserLoggedIn } = this.props;
+    const { onGoogleSignIn } = this.props;
 
     this.setState(
       {
         isLoginOnProcess: true
       },
-      onGoogleSignIn(isLoginActive, isUserLoggedIn)
+      onGoogleSignIn()
     );
   }
 

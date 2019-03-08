@@ -3,17 +3,11 @@ import Login from '../components/Login';
 import { deactivateLoginPage, logInUser } from '../actions';
 import { auth, provider } from '../utils/firebase';
 
-const mapStateToProps = state => {
-  const { isLoginActive, isUserLoggedIn } = state;
-
-  return { isLoginActive, isUserLoggedIn };
-};
-
 const mapDispatchToProps = dispatch => ({
-  onCloseClick: isLoginActive => {
-    dispatch(deactivateLoginPage(!isLoginActive));
+  onCloseClick: () => {
+    dispatch(deactivateLoginPage());
   },
-  onGoogleSignIn: (isLoginActive, isUserLoggedIn) => {
+  onGoogleSignIn: () => {
     auth
       .signInWithPopup(provider)
       .then(async (result) => {
@@ -34,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
 
           res = await res.json();
           dispatch(
-            logInUser(res.user, !isLoginActive, !isUserLoggedIn)
+            logInUser(res.user)
           );
         } catch (err) {
           auth.signOut();
@@ -55,6 +49,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Login);

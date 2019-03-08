@@ -32,4 +32,9 @@ button {
   min-height: 100vh;
   padding-top: 60px;
   background-color: #fcfcfc;
+
+  &__section {
+    display: flex;
+    height: 100%;
+  }
 }

@@ -4,7 +4,11 @@ import { logOutUser } from '../actions';
 import { auth } from '../utils/firebase';
 
 const mapStateToProps = state => {
-  return state;
+  const { displayName } = state;
+
+  return {
+    displayName
+  };
 };
 
 const mapDispatchToProps = dispatch => ({

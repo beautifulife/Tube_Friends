@@ -31,22 +31,18 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onInit: (isLoginActive, isUserLoggedIn) => {
+  onInit: (isLoginActive) => {
     auth.onAuthStateChanged(user => {
       console.log('auth load', user);
       if (user && !isLoginActive) {
         dispatch(
-          logInUser(
-            JSON.parse(JSON.stringify(user)),
-            isLoginActive,
-            !isUserLoggedIn
-          )
+          logInUser(JSON.parse(JSON.stringify(user)))
         );
       }
     });
   },
-  onLoginClick: isLoginActive => {
-    dispatch(activateLoginPage(!isLoginActive));
+  onLoginClick: () => {
+    dispatch(activateLoginPage());
   },
   onLogOutClick: () => {
     auth.signOut();
