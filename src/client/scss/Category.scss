@@ -1,0 +1,24 @@
+.Category {
+  width: 250px;
+  margin-left: 1rem;
+  padding: 1rem 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 5px;
+
+  &__list {
+    li {
+      padding: 0 0 0.9rem 0.5rem;
+      font-size: 0.9rem;
+
+      &.main-btn {
+        font-size: 1.1rem;
+        font-weight: bold;
+
+        &.my-feed {
+          margin-bottom: 0.8rem;
+          border-bottom: 1px solid #eee;
+        }
+      }
+    }
+  }
+}

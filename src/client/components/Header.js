@@ -59,10 +59,10 @@ export default class Header extends Component {
           <div className="Header__sort">
             <ul className="Header__sort__list">
               <li className="Header__sort__list__item">
-                <Link to="#">hottest</Link>
+                <Link to="#">Hottest</Link>
               </li>
               <li className="Header__sort__list__item">
-                <Link to="#">newest</Link>
+                <Link to="#">Newest</Link>
               </li>
             </ul>
           </div>

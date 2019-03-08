@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -7,8 +7,9 @@ import {
   Link
 } from 'react-router-dom';
 import HeaderContainer from '../containers/HeaderContainer';
-import MainPage from './MainPage';
 import SearchPage from './SearchPage';
+import CategoryContainer from '../containers/CategoryContainer';
+import ContentsList from './ContentsList';
 
 export default class App extends Component {
   constructor(props) {
@@ -23,10 +24,26 @@ export default class App extends Component {
           <HeaderContainer />
           <div className="App__section">
             <Switch>
-              <Redirect exact path="/" to="/stories" />
+              <Redirect exact path="/" to="/hottest" />
               {/* <Route path="/search" component={SearchPage} /> */}
-              <Route path="/:sort/:category" component={MainPage} />
-              <Route path="/:sort" component={MainPage} />
+              <Route
+                path="/:sort/:category"
+                render={() => (
+                  <Fragment>
+                    <CategoryContainer />
+                    <ContentsList />
+                  </Fragment>
+                )}
+              />
+              <Route
+                path="/:sort"
+                render={() => (
+                  <Fragment>
+                    <CategoryContainer />
+                    <ContentsList />
+                  </Fragment>
+                )}
+              />
             </Switch>
           </div>
         </div>
