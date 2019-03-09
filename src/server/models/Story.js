@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
 const storySchema = mongoose.Schema({
   uid: { type: String, required: true, ref: 'User' },
   categoryId: { type: String, required: true, ref: 'Category' },
@@ -8,7 +7,7 @@ const storySchema = mongoose.Schema({
   content: { type: String, required: true },
   summary: { type: String, required: true },
   link: { type: String, required: true },
-  like: [{ type: ObjectId, ref: 'User' }],
+  like: { type: Number, default: 0 },
   thumbnail: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });

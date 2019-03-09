@@ -9,6 +9,7 @@ const verifySearchKeyword = require('./middlewares/verifySearchKeyword');
 const Users = require('./models/User');
 const Categories = require('./models/Category');
 const Stories = require('./models/Story');
+const UserAssets = require('./models/UserAsset');
 
 const app = express();
 
@@ -53,6 +54,94 @@ app.post(
       console.error(err);
       res.status(500).send();
     }
+  }
+);
+
+app.get('/api/stories', async (req, res, next) => {
+  const sort = req.query.sort || 'hottest';
+  const category = req.query.category || 'all';
+  const page = req.query.page || 1;
+  let categoryId;
+  let stories;
+
+  try {
+    if (category === 'all') {
+      if (sort === 'hottest') {
+        stories = await Stories.find()
+          .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
+          .sort('-like')
+          .skip((page - 1) * 30)
+          .limit(page * 30);
+      } else if (sort === 'newest') {
+        stories = await Stories.find()
+          .sort('-createdAt')
+          .skip((page - 1) * 30)
+          .limit(page * 30);
+      }
+    } else {
+      categoryId = await Categories.findOne()
+        .where('title').equals(category)
+        .select('channelId');
+
+      if (sort === 'hottest') {
+        stories = await Stories.find()
+          .where('categoryId').equals(categoryId)
+          .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
+          .sort('-like')
+          .skip((page - 1) * 30)
+          .limit(page * 30);
+      } else if (sort === 'newest') {
+        stories = await Stories.find()
+          .where('categoryId').equals(categoryId)
+          .sort('-createdAt')
+          .skip((page - 1) * 30)
+          .limit(page * 30);
+      }
+    }
+
+    res.json({
+      sort,
+      category,
+      page,
+      stories
+    });
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
+  }
+});
+
+app.get(
+  '/api/users/:username/feed',
+  verifyAccessToken,
+  verifyIdToken,
+  async (req, res, next) => {
+    const uid = res.locals.uid;
+    const username = req.params.username.split('@')[1];
+    const page = req.query.page || 1;
+
+    const user = await Users.findOne()
+      .where('uid').equals(uid)
+      .select('-_id username');
+
+    console.log(uid, username, user);
+
+    if (username !== user.username) {
+      console.log('forbidden feed request occured', username);
+      return next(createError(403));
+    }
+
+    const stories = await Stories.find()
+      .where('uid').equals(uid)
+      .sort('-createdAt')
+      .skip((page - 1) * 30)
+      .limit(page * 30);
+
+    res.json({
+      username,
+      page,
+      stories
+    });
   }
 );
 
@@ -108,7 +197,6 @@ app.post('/api/auth', async (req, res, next) => {
     const username = email.split('@')[0];
     const newUser = new Users({
       uid,
-      displayName,
       photoURL,
       email,
       username
