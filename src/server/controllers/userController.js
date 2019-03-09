@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const createError = require('http-errors');
 const Stories = require('../models/Story');
 const Users = require('../models/User');
@@ -50,28 +51,42 @@ const getFeed = async (req, res, next) => {
   const username = req.params.username;
   const page = req.query.page || 1;
 
-  const user = await Users.findOne()
-    .where('uid').equals(uid)
-    .select('-_id username');
+  try {
+    const user = await Users.findOne()
+      .where('uid').equals(uid)
+      .select('username');
 
-  console.log(uid, username, user);
+    console.log(uid, username, user);
 
-  if (username !== user.username) {
-    console.log('forbidden feed request occured', username);
-    return next(createError(403));
+    if (username !== user.username) {
+      console.log('forbidden feed request occured', username);
+      return next(createError(403));
+    }
+
+    // userAssets subscribe all -> target stories -> sort -date
+
+    const userAsset = await UserAssets.findOne()
+      .where('userId').equals(user._id)
+      .select('-_id subscribe');
+
+    const subscribeList = userAsset.subscribe.map(userId => new mongoose.Types.ObjectId(userId));
+    console.log(subscribeList);
+      
+    const stories = await Stories.find()
+      .where('userId').in(subscribeList)
+      .sort('-createdAt')
+      .skip((page - 1) * 30)
+      .limit(page * 30);
+
+    res.json({
+      username,
+      page,
+      stories
+    });
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
   }
-
-  const stories = await Stories.find()
-    .where('uid').equals(uid)
-    .sort('-createdAt')
-    .skip((page - 1) * 30)
-    .limit(page * 30);
-
-  res.json({
-    username,
-    page,
-    stories
-  });
 };
 
 const subscribeUser = async (req, res, next) => {
