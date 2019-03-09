@@ -11,7 +11,7 @@ const {
   getStories,
   searchStories
 } = require('./controllers/storyController');
-const { authenticateUser, getFeed } = require('./controllers/userController');
+const { authenticateUser, getFeed, subscribeUser } = require('./controllers/userController');
 const {
   getCategories,
   _createCategories
@@ -19,7 +19,7 @@ const {
 
 const { DB_URI } = process.env;
 
-mongoose.connect(DB_URI, { useNewUrlParser: true });
+mongoose.connect(DB_URI, { useNewUrlParser: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 
@@ -43,5 +43,6 @@ app.post('/api/stories/new', verifyAccessToken, verifyIdToken, createStory);
 app.get('/api/search', verifySearchKeyword, searchStories);
 
 app.get('/api/users/:username/feed', verifyAccessToken, verifyIdToken, getFeed);
+app.put('/api/users/:username/subscribe', verifyAccessToken, verifyIdToken, subscribeUser);
 
 app.listen(5000, () => console.log('Listening on port 5000!'));

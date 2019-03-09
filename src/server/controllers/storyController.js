@@ -1,14 +1,21 @@
 const createError = require('http-errors');
 const Categories = require('../models/Category');
 const Stories = require('../models/Story');
+const Users = require('../models/User');
 
 const createStory = async (req, res, next) => {
   const uid = res.locals.uid;
   const { categoryId, title, content, summary, link, thumbnail } = req.body;
 
   try {
+    const userId = await Users.findOne()
+      .where('uid').equals(uid)
+      .select('_id');
+
+    console.log(userId, title, content, summary, link, thumbnail);
+
     const newStory = new Stories({
-      uid,
+      userId,
       categoryId,
       title,
       content,
@@ -40,31 +47,37 @@ const getStories = async (req, res, next) => {
           .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
           .skip((page - 1) * 30)
-          .limit(page * 30);
+          .limit(page * 30)
+          .populate('userId', '-_id username');
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .sort('-createdAt')
           .skip((page - 1) * 30)
-          .limit(page * 30);
+          .limit(page * 30)
+          .populate('userId', '-_id username');
       }
     } else {
       categoryId = await Categories.findOne()
         .where('title').equals(category)
-        .select('channelId');
+        .select('_id');
+
+      console.log(categoryId);
 
       if (sort === 'hottest') {
         stories = await Stories.find()
-          .where('categoryId').equals(categoryId)
+          .where('categoryId').equals(categoryId._id)
           .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
           .skip((page - 1) * 30)
-          .limit(page * 30);
+          .limit(page * 30)
+          .populate('userId', '-_id username');
       } else if (sort === 'newest') {
         stories = await Stories.find()
-          .where('categoryId').equals(categoryId)
+          .where('categoryId').equals(categoryId._id)
           .sort('-createdAt')
           .skip((page - 1) * 30)
-          .limit(page * 30);
+          .limit(page * 30)
+          .populate('userId', '-_id username');
       }
     }
 

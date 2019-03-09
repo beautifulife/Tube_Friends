@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const Stories = require('../models/Story');
 const Users = require('../models/User');
+const UserAssets = require('../models/UserAsset');
 
 const authenticateUser = async (req, res, next) => {
   const { uid, displayName, photoURL, email } = req.body;
@@ -20,6 +21,7 @@ const authenticateUser = async (req, res, next) => {
     }
 
     const username = email.split('@')[0];
+
     const newUser = new Users({
       uid,
       photoURL,
@@ -27,7 +29,12 @@ const authenticateUser = async (req, res, next) => {
       username
     });
 
-    await newUser.save();
+    const result = await newUser.save();
+    console.log(result);
+
+    const newUserAsset = new UserAssets({ userId: result._id });
+
+    await newUserAsset.save();
 
     res.json({
       user: req.body
@@ -40,7 +47,7 @@ const authenticateUser = async (req, res, next) => {
 
 const getFeed = async (req, res, next) => {
   const uid = res.locals.uid;
-  const username = req.params.username.split('@')[1];
+  const username = req.params.username;
   const page = req.query.page || 1;
 
   const user = await Users.findOne()
@@ -67,7 +74,49 @@ const getFeed = async (req, res, next) => {
   });
 };
 
+const subscribeUser = async (req, res, next) => {
+  const uid = res.locals.uid;
+  const targetUsername = req.params.username;
+
+  try {
+    const users = await Users.find()
+      .or([{ uid }, { username: targetUsername }])
+      .select('_id username');
+
+    console.log(users);
+    if (users.length !== 2) {
+      console.log('forbidden subscribe request occured', users);
+      return next(createError(403));
+    }
+
+    let targetUserId;
+    let userId;
+
+    if (users[0].username === targetUsername) {
+      targetUserId = users[0]._id;
+      userId = users[1]._id;
+    } else {
+      targetUserId = users[1]._id;
+      userId = users[0]._id;
+    }
+
+    // subscribe user
+    await UserAssets.findOneAndUpdate({ $push: { subscribe: targetUserId } })
+      .where('userId').equals(userId);
+
+    // add subscriber
+    await UserAssets.findOneAndUpdate({ $push: { subscriber: userId } })
+      .where('userId').equals(targetUserId);
+
+    res.send();
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
+  }
+};
+
 module.exports = {
   authenticateUser,
-  getFeed
+  getFeed,
+  subscribeUser
 };
