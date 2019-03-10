@@ -8,20 +8,19 @@ export default class Category extends Component {
     onInit();
   }
 
-  renderCategories() {
-    const { categories, match } = this.props;
-
-    return categories.map(category => {
-      return (
-        <li key={category._id}>
-          <Link to={`/${match.params.sort}/${category.title}`}>{category.title}</Link>
-        </li>
-      );
-    });
-  }
-
   render() {
     const { categories, isUserLoggedIn, username, match } = this.props;
+    const sort = match.params.category === 'feed' ? 'hottest' : match.params.sort;
+
+    const renderCategories = () => {
+      return categories.map(category => {
+        return (
+          <li key={category._id}>
+            <Link to={`/${sort}/${category.title}`}>{category.title}</Link>
+          </li>
+        );
+      });
+    };
 
     return (
       <div className="Category">
@@ -34,9 +33,9 @@ export default class Category extends Component {
                 </li>
               )}
               <li className="main-btn">
-                <Link to={`/${match.params.sort}`}>All Categories</Link>
+                <Link to={`/${sort}`}>All Categories</Link>
               </li>
-              {this.renderCategories()}
+              {renderCategories()}
             </Fragment>
           ) : (
             <li>Loading...</li>

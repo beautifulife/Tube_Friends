@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import {
   activateLoginPage,
-  logInUser,
+  logInSuccess,
   toggleMenu,
   toggleProfile
 } from '../actions';
@@ -36,16 +36,13 @@ const mapDispatchToProps = dispatch => ({
       console.log('auth load', user);
       if (user && !isLoginActive) {
         dispatch(
-          logInUser(JSON.parse(JSON.stringify(user)))
+          logInSuccess(JSON.parse(JSON.stringify(user)))
         );
       }
     });
   },
   onLoginClick: () => {
     dispatch(activateLoginPage());
-  },
-  onLogOutClick: () => {
-    auth.signOut();
   },
   onMenuToggle: isMenuActive => {
     dispatch(toggleMenu(!isMenuActive));

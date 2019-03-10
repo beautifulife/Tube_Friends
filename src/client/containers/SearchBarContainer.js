@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
-import { searchStories } from '../actions';
+import { searchStoriesComplete } from '../actions';
 
 const mapStateToProps = state => {
   return state;
@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
   
       res = await res.json();
       dispatch(
-        searchStories(res.stories, res.page)
+        searchStoriesComplete(res.stories, res.page)
       );
     } catch (err) {
       console.error(err);

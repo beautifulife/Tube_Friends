@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Profile from '../components/Profile';
-import { logOutUser } from '../actions';
+import { logOutComplete } from '../actions';
 import { auth } from '../utils/firebase';
 
 const mapStateToProps = state => {
@@ -14,7 +14,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onLogOutClick: () => {
     auth.signOut();
-    dispatch(logOutUser());
+    dispatch(logOutComplete());
     window.location.reload();
   }
 });

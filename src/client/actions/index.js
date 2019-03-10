@@ -1,22 +1,22 @@
 import * as Types from './actionTypes';
 
 export const activateLoginPage = () => ({
-  type: Types.LOGIN_PAGE_ACTIVATE,
+  type: Types.ACTIVATE_LOGIN_PAGE,
   isLoginActive: true
 });
 
 export const deactivateLoginPage = () => ({
-  type: Types.LOGIN_PAGE_DEACTIVATE,
+  type: Types.DEACTIVATE_LOGIN_PAGE,
   isLoginActive: false
 });
 
-export const getCategories = categories => ({
-  type: Types.GET_CATEGORIES,
+export const fetchCategoriesComplete = categories => ({
+  type: Types.FETCH_CATEGORIES_COMPLETE,
   categories
 });
 
-export const logInUser = (user) => ({
-  type: Types.USER_LOG_IN,
+export const logInComplete = (user) => ({
+  type: Types.LOG_IN_COMPLETE,
   isLoginActive: false,
   isUserLoggedIn: true,
   accessToken: user.stsTokenManager.accessToken,
@@ -25,22 +25,22 @@ export const logInUser = (user) => ({
   username: user.email.split('@')[0]
 });
 
-export const logOutUser = () => ({
-  type: Types.USER_LOG_OUT
+export const logOutComplete = () => ({
+  type: Types.LOG_OUT_COMPLETE
 });
 
-export const searchStories = (stories, page) => ({
-  type: Types.STORIES_SEARCH,
+export const searchStoriesComplete = (stories, page) => ({
+  type: Types.SEARCH_STORIES_COMPLETE,
   stories,
   page
 });
 
 export const toggleMenu = isMenuActive => ({
-  type: Types.MENU_TOGGLE,
+  type: Types.TOGGLE_MENU,
   isMenuActive
 });
 
 export const toggleProfile = isProfileActive => ({
-  type: Types.PROFILE_TOGGLE,
+  type: Types.TOGGLE_PROFILE,
   isProfileActive
 });

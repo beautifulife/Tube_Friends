@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/Login';
-import { deactivateLoginPage, logInUser } from '../actions';
+import { deactivateLoginPage, logInComplete } from '../actions';
 import { auth, provider } from '../utils/firebase';
 
 const mapDispatchToProps = dispatch => ({
@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
 
           res = await res.json();
           dispatch(
-            logInUser(res.user)
+            logInComplete(res.user)
           );
         } catch (err) {
           console.error(err);

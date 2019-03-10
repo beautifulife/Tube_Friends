@@ -18,34 +18,18 @@ const rootReducer = (state = initialState, action) => {
   const newState = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {
-  case Types.GET_CATEGORIES:
-    newState.categories = action.categories;
-
-    return newState;
-
-  case Types.LOGIN_PAGE_ACTIVATE:
-  case Types.LOGIN_PAGE_DEACTIVATE:
+  case Types.ACTIVATE_LOGIN_PAGE:
+  case Types.DEACTIVATE_LOGIN_PAGE:
     newState.isLoginActive = action.isLoginActive;
 
     return newState;
 
-  case Types.MENU_TOGGLE:
-    newState.isMenuActive = action.isMenuActive;
+  case Types.FETCH_CATEGORIES_COMPLETE:
+    newState.categories = action.categories;
 
     return newState;
 
-  case Types.PROFILE_TOGGLE:
-    newState.isProfileActive = action.isProfileActive;
-
-    return newState;
-
-  case Types.STORIES_SEARCH:
-    newState.stories = action.stories;
-    newState.page = action.page;
-
-    return newState;
-
-  case Types.USER_LOG_IN:
+  case Types.LOG_IN_COMPLETE:
     newState.isLoginActive = action.isLoginActive;
     newState.isUserLoggedIn = action.isUserLoggedIn;
     newState.accessToken = action.accessToken;
@@ -55,8 +39,24 @@ const rootReducer = (state = initialState, action) => {
 
     return newState;
 
-  case Types.USER_LOG_OUT:
+  case Types.LOG_OUT_COMPLETE:
     return initialState;
+
+  case Types.SEARCH_STORIES_COMPLETE:
+    newState.stories = action.stories;
+    newState.page = action.page;
+
+    return newState;
+
+  case Types.TOGGLE_MENU:
+    newState.isMenuActive = action.isMenuActive;
+
+    return newState;
+
+  case Types.TOGGLE_PROFILE:
+    newState.isProfileActive = action.isProfileActive;
+
+    return newState;
 
   default:
     return newState;
