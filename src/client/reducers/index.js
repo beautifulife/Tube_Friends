@@ -5,6 +5,7 @@ const initialState = {
   isMenuActive: false,
   isProfileActive: false,
   isUserLoggedIn: false,
+  isLoading: false,
   accessToken: '',
   categories: [],
   displayName: '',
@@ -26,6 +27,25 @@ const rootReducer = (state = initialState, action) => {
 
   case Types.FETCH_CATEGORIES_COMPLETE:
     newState.categories = action.categories;
+
+    return newState;
+
+  case Types.FETCH_STORIES_COMPLETE:
+    newState.stories = action.stories;
+    newState.sortType = action.sortType;
+    newState.category = action.category;
+    newState.page = action.page;
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.FETCH_STORIES_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.FETCH_STORIES_REQUESTED:
+    newState.isLoading = action.isLoading;
 
     return newState;
 

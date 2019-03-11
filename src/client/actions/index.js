@@ -15,7 +15,25 @@ export const fetchCategoriesComplete = categories => ({
   categories
 });
 
-export const logInComplete = (user) => ({
+export const fetchStoriesComplete = (stories, sortType, category, page) => ({
+  type: Types.FETCH_STORIES_COMPLETE,
+  stories,
+  sortType,
+  category,
+  isLoading: false
+});
+
+export const fetchStoriesError = () => ({
+  type: Types.FETCH_STORIES_ERROR,
+  isLoading: false
+});
+
+export const fetchStoriesRequested = () => ({
+  type: Types.FETCH_STORIES_REQUESTED,
+  isLoading: true
+});
+
+export const logInComplete = user => ({
   type: Types.LOG_IN_COMPLETE,
   isLoginActive: false,
   isUserLoggedIn: true,
