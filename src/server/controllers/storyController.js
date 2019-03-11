@@ -9,7 +9,8 @@ const createStory = async (req, res, next) => {
 
   try {
     const userId = await Users.findOne()
-      .where('uid').equals(uid)
+      .where('uid')
+      .equals(uid)
       .select('_id');
 
     console.log(userId, title, content, summary, link, thumbnail);
@@ -34,6 +35,8 @@ const createStory = async (req, res, next) => {
 };
 
 const getStories = async (req, res, next) => {
+  console.log(!!req.query.category);
+
   const sort = req.query.sort || 'hottest';
   const category = req.query.category || 'all';
   const page = req.query.page || 1;
@@ -44,42 +47,53 @@ const getStories = async (req, res, next) => {
     if (category === 'all') {
       if (sort === 'hottest') {
         stories = await Stories.find()
-          .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
+          .where('createdAt')
+          .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username');
+          .populate('userId', '-_id username')
+          .populate('categoryId', '-_id title');
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .sort('-createdAt')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username');
+          .populate('userId', '-_id username')
+          .populate('categoryId', '-_id title');
       }
     } else {
       categoryId = await Categories.findOne()
-        .where('title').equals(category)
+        .where('title')
+        .equals(category)
         .select('_id');
 
       console.log(categoryId);
 
       if (sort === 'hottest') {
         stories = await Stories.find()
-          .where('categoryId').equals(categoryId._id)
-          .where('createdAt').gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
+          .where('categoryId')
+          .equals(categoryId._id)
+          .where('createdAt')
+          .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username');
+          .populate('userId', '-_id username')
+          .populate('categoryId', '-_id title');
       } else if (sort === 'newest') {
         stories = await Stories.find()
-          .where('categoryId').equals(categoryId._id)
+          .where('categoryId')
+          .equals(categoryId._id)
           .sort('-createdAt')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username');
+          .populate('userId', '-_id username')
+          .populate('categoryId', '-_id title');
       }
     }
+
+    console.log('send', stories);
 
     res.json({
       sort,

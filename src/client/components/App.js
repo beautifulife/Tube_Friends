@@ -7,9 +7,8 @@ import {
   Link
 } from 'react-router-dom';
 import HeaderContainer from '../containers/HeaderContainer';
-import SearchPage from './SearchPage';
 import CategoryContainer from '../containers/CategoryContainer';
-import ContentsList from './ContentsList';
+import ContentsListContainer from '../containers/ContentsListContainer';
 
 export default class App extends Component {
   constructor(props) {
@@ -31,7 +30,7 @@ export default class App extends Component {
                 render={(props) => (
                   <Fragment>
                     <CategoryContainer {...props} />
-                    <ContentsList {...props} />
+                    <ContentsListContainer {...props} />
                   </Fragment>
                 )}
               />
@@ -40,7 +39,7 @@ export default class App extends Component {
                 render={(props) => (
                   <Fragment>
                     <CategoryContainer {...props} />
-                    <ContentsList {...props} />
+                    <ContentsListContainer {...props} />
                   </Fragment>
                 )}
               />

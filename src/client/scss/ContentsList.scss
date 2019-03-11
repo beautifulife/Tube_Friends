@@ -1,7 +1,76 @@
 .ContentsList {
   flex: 1;
-  margin: 0 1rem;
+  margin: 0 1rem 1rem 1rem;
   padding: 1rem 2rem;
   border: 1px solid #eee;
   border-radius: 5px;
+  box-shadow: 6px 6px 0 0 $base-color;
+
+  &__header {
+    position: relative;
+    margin-bottom: 0.8rem;
+    padding: 0 0 0.9rem 0.5rem;
+    border-bottom: 1px solid #eee;
+    font-size: 1.1rem;
+    font-weight: bold;
+
+    &__toggle-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  &__main {
+    &__list {
+      &__item {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #eee;
+
+        .header {
+          margin-bottom: 0.5rem;
+
+          span {
+            margin-right: 1rem;
+            font-size: 0.9rem;
+            color: rgba(0, 0, 0, 0.4);
+
+            &:first-of-type {
+              color: rgba(0, 0, 0, 0.8);
+            }
+          }
+        }
+
+        .main {
+          display: flex;
+
+          &__thumbnail {
+            img {
+              height: 100px;
+            }
+          }
+
+          &__info {
+            padding: 0.3rem 1rem;
+
+            .title {
+              margin-bottom: 0.5rem;
+              font-size: 1.2rem;
+              font-weight: bold;
+            }
+
+            .summary {
+              margin-bottom: 1rem;
+            }
+
+            .utils {
+              .like-btn {
+                margin-right: 0.5rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

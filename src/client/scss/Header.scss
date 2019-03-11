@@ -3,6 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;
   background-color: #fcfcfc;
   border-bottom: 1px solid #eee;
 
@@ -140,6 +141,7 @@
     transform: translateX(250px);
     width: 250px;
     border: 1px solid #eee;
+    background-color: #fcfcfc;
     transition: all 0.3s ease-in-out;
 
     &.active {

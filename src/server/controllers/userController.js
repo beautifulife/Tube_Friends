@@ -8,7 +8,6 @@ const authenticateUser = async (req, res, next) => {
   const { uid, displayName, photoURL, email } = req.body;
 
   if (!(uid && displayName && photoURL && email)) {
-    console.log('invalid request occured');
     return next(createError(400));
   }
 
@@ -51,29 +50,35 @@ const getFeed = async (req, res, next) => {
   const username = req.params.username;
   const page = req.query.page || 1;
 
+  if (!username) {
+    return next(createError(400));
+  }
+
   try {
     const user = await Users.findOne()
-      .where('uid').equals(uid)
+      .where('uid')
+      .equals(uid)
       .select('username');
 
     console.log(uid, username, user);
 
     if (username !== user.username) {
-      console.log('forbidden feed request occured', username);
-      return next(createError(403));
+      return next(createError(403, `forbidden feed request occured ${username}`));
     }
 
-    // userAssets subscribe all -> target stories -> sort -date
-
     const userAsset = await UserAssets.findOne()
-      .where('userId').equals(user._id)
+      .where('userId')
+      .equals(user._id)
       .select('-_id subscribe');
 
-    const subscribeList = userAsset.subscribe.map(userId => new mongoose.Types.ObjectId(userId));
+    const subscribeList = userAsset.subscribe.map(
+      userId => new mongoose.Types.ObjectId(userId)
+    );
     console.log(subscribeList);
-      
+
     const stories = await Stories.find()
-      .where('userId').in(subscribeList)
+      .where('userId')
+      .in(subscribeList)
       .sort('-createdAt')
       .skip((page - 1) * 30)
       .limit(page * 30);
@@ -93,6 +98,10 @@ const subscribeUser = async (req, res, next) => {
   const uid = res.locals.uid;
   const targetUsername = req.params.username;
 
+  if (!targetUsername) {
+    return next(createError(400));
+  }
+
   try {
     const users = await Users.find()
       .or([{ uid }, { username: targetUsername }])
@@ -100,8 +109,7 @@ const subscribeUser = async (req, res, next) => {
 
     console.log(users);
     if (users.length !== 2) {
-      console.log('forbidden subscribe request occured', users);
-      return next(createError(403));
+      return next(createError(403, `forbidden feed request occured ${users}`));
     }
 
     let targetUserId;
@@ -117,11 +125,13 @@ const subscribeUser = async (req, res, next) => {
 
     // subscribe user
     await UserAssets.findOneAndUpdate({ $push: { subscribe: targetUserId } })
-      .where('userId').equals(userId);
+      .where('userId')
+      .equals(userId);
 
     // add subscriber
     await UserAssets.findOneAndUpdate({ $push: { subscriber: userId } })
-      .where('userId').equals(targetUserId);
+      .where('userId')
+      .equals(targetUserId);
 
     res.send();
   } catch (err) {
