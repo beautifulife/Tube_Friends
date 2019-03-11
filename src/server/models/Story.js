@@ -8,7 +8,7 @@ const storySchema = mongoose.Schema({
   content: { type: String, required: true },
   summary: { type: String, required: true },
   link: { type: String, required: true },
-  like: { type: Number, default: 0 },
+  like: [{ type: ObjectId, ref: 'User' }],
   thumbnail: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });

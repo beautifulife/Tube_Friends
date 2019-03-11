@@ -47,24 +47,24 @@ const authenticateUser = async (req, res, next) => {
 
 const getFeed = async (req, res, next) => {
   const uid = res.locals.uid;
-  const username = req.params.username;
+  const user_id = req.params.user_id;
   const page = req.query.page || 1;
 
-  if (!username) {
+  if (!user_id) {
     return next(createError(400));
+  }
+
+  if (uid !== user_id) {
+    return next(createError(403, `forbidden feed request occured ${user_id}`));
   }
 
   try {
     const user = await Users.findOne()
       .where('uid')
       .equals(uid)
-      .select('username');
+      .select('_id');
 
-    console.log(uid, username, user);
-
-    if (username !== user.username) {
-      return next(createError(403, `forbidden feed request occured ${username}`));
-    }
+    console.log(uid, user);
 
     const userAsset = await UserAssets.findOne()
       .where('userId')
@@ -84,7 +84,7 @@ const getFeed = async (req, res, next) => {
       .limit(page * 30);
 
     res.json({
-      username,
+      uid,
       page,
       stories
     });

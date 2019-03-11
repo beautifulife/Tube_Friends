@@ -1,18 +1,22 @@
 const createError = require('http-errors');
+const mongoose = require('mongoose');
 const Categories = require('../models/Category');
 const Stories = require('../models/Story');
 const Users = require('../models/User');
 
 const createStory = async (req, res, next) => {
-  const uid = res.locals.uid;
-  const { categoryId, title, content, summary, link, thumbnail } = req.body;
-
   try {
+    const uid = res.locals.uid;
+    const { categoryId, title, content, summary, link, thumbnail } = req.body;
+
     const userId = await Users.findOne()
       .where('uid')
       .equals(uid)
       .select('_id');
 
+    if (!userId) {
+      return next(createError(403));
+    }
     console.log(userId, title, content, summary, link, thumbnail);
 
     const newStory = new Stories({
@@ -35,15 +39,13 @@ const createStory = async (req, res, next) => {
 };
 
 const getStories = async (req, res, next) => {
-  console.log(!!req.query.category);
-
-  const sort = req.query.sort || 'hottest';
-  const category = req.query.category || 'all';
-  const page = req.query.page || 1;
-  let categoryId;
-  let stories;
-
   try {
+    const sort = req.query.sort || 'hottest';
+    const category = req.query.category || 'all';
+    const page = req.query.page || 1;
+    let categoryId;
+    let stories;
+
     if (category === 'all') {
       if (sort === 'hottest') {
         stories = await Stories.find()
@@ -139,8 +141,49 @@ const searchStories = async (req, res, next) => {
   }
 };
 
+const toggleLike = async (req, res, next) => {
+  try {
+    const uid = res.locals.uid;
+    const storyId = req.params.story_id;
+    const action = req.body.action;
+
+    if (!(action && mongoose.Types.ObjectId.isValid(storyId))) {
+      return next(createError(400));
+    }
+
+    const user = await Users.findOne()
+      .where('uid')
+      .equals(uid)
+      .select('_id');
+
+    const testId = await Users.findOne()
+      .where('uid')
+      .equals('12312312313')
+      .select('_id');
+
+    console.log(storyId, user, testId, action);
+
+    if (action === 'add') {
+      await Stories.findOneAndUpdate({ $push: { like: user._id } })
+        .where('_id')
+        .equals(storyId);
+      console.log('action done');
+    } else if (action === 'remove') {
+      await Stories.findOneAndUpdate({ $pull: { like: user._id } })
+        .where('_id')
+        .equals(storyId);
+    }
+
+    res.send();
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
+  }
+};
+
 module.exports = {
   createStory,
   getStories,
-  searchStories
+  searchStories,
+  toggleLike
 };
