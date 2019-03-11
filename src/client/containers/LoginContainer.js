@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from '../components/Login';
-import { deactivateLoginPage, logInComplete } from '../actions';
+import { deactivateLoginPage, logInComplete, logInError, logInRequested } from '../actions';
 import { auth, provider } from '../utils/firebase';
 
 const mapDispatchToProps = dispatch => ({
@@ -12,6 +12,8 @@ const mapDispatchToProps = dispatch => ({
       .signInWithPopup(provider)
       .then(async (result) => {
         const user = JSON.stringify(result.user);
+
+        dispatch(logInRequested());
 
         try {
           let res = await fetch('/api/auth', {
@@ -37,6 +39,7 @@ const mapDispatchToProps = dispatch => ({
         }
       })
       .catch(error => {
+        dispatch(logInError());
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Category from '../components/Category';
-import { fetchCategoriesComplete } from '../actions';
+import { fetchCategoriesComplete, fetchCategoriesError } from '../actions';
 
 const mapStateToProps = state => {
   const { categories, isUserLoggedIn, username } = state;
@@ -22,6 +22,7 @@ const mapDispatchToProps = dispatch => ({
         fetchCategoriesComplete(res.categories)
       );
     } catch (err) {
+      dispatch(fetchCategoriesError());
       console.error(err);
     }
   }

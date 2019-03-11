@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
 
 export default class Login extends Component {
   constructor(props) {
@@ -67,7 +65,7 @@ export default class Login extends Component {
                 disabled={isLoginOnProcess}
               >
                 <span className="Login__contents__google-btn__logo">
-                  <FontAwesomeIcon icon={fab.faGooglePlusG} />
+                  <FontAwesomeIcon icon={['fab', 'googlePlusG']} />
                 </span>
                 <span>Sign up with Google</span>
               </button>
@@ -85,7 +83,7 @@ export default class Login extends Component {
                 onClick={this.handleLoginClick}
               >
                 <span className="Login__contents__google-btn__logo">
-                  <FontAwesomeIcon icon={fab.faGooglePlusG} />
+                  <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
                 </span>
                 <span>Log in with Google</span>
               </button>
@@ -100,7 +98,7 @@ export default class Login extends Component {
             className="Login__contents__close-btn"
             onClick={this.handleCloseClick}
           >
-            <FontAwesomeIcon icon={faTimes} />
+            <FontAwesomeIcon icon="times" />
           </button>
         </div>
       </div>

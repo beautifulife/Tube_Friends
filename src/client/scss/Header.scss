@@ -4,8 +4,9 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: #fcfcfc;
   border-bottom: 1px solid #eee;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+  background-color: #fcfcfc;
 
   &__nav {
     display: flex;

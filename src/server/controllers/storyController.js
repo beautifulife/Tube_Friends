@@ -55,14 +55,16 @@ const getStories = async (req, res, next) => {
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title');
+          .populate('categoryId', '-_id title')
+          .populate('like', 'username uid');
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .sort('-createdAt')
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title');
+          .populate('categoryId', '-_id title')
+          .populate('like', 'username uid');
       }
     } else {
       categoryId = await Categories.findOne()
@@ -82,7 +84,8 @@ const getStories = async (req, res, next) => {
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title');
+          .populate('categoryId', '-_id title')
+          .populate('like', 'username uid');
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .where('categoryId')
@@ -91,7 +94,8 @@ const getStories = async (req, res, next) => {
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title');
+          .populate('categoryId', '-_id title')
+          .populate('like', 'username uid');
       }
     }
 
@@ -147,6 +151,8 @@ const toggleLike = async (req, res, next) => {
     const storyId = req.params.story_id;
     const action = req.body.action;
 
+    console.log(storyId, action, uid);
+
     if (!(action && mongoose.Types.ObjectId.isValid(storyId))) {
       return next(createError(400));
     }
@@ -154,27 +160,33 @@ const toggleLike = async (req, res, next) => {
     const user = await Users.findOne()
       .where('uid')
       .equals(uid)
-      .select('_id');
+      .select('_id uid username');
 
     const testId = await Users.findOne()
       .where('uid')
       .equals('12312312313')
       .select('_id');
 
-    console.log(storyId, user, testId, action);
+    console.log(storyId, testId, action);
+
+    let story;
 
     if (action === 'add') {
-      await Stories.findOneAndUpdate({ $push: { like: user._id } })
+      story = await Stories.findOneAndUpdate({ $push: { like: user._id } })
         .where('_id')
         .equals(storyId);
       console.log('action done');
     } else if (action === 'remove') {
-      await Stories.findOneAndUpdate({ $pull: { like: user._id } })
+      story = await Stories.findOneAndUpdate({ $pull: { like: user._id } })
         .where('_id')
         .equals(storyId);
     }
 
-    res.send();
+    console.log(story);
+
+    res.json({
+      user
+    });
   } catch (err) {
     console.error(err);
     next(createError(500));

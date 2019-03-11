@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListUl, faTh, faHeart } from '@fortawesome/free-solid-svg-icons';
 import Spinner from './Spinner';
 
 export default class ContentsList extends Component {
@@ -10,7 +9,7 @@ export default class ContentsList extends Component {
     this.state = {
       viewType: 'list'
     };
-    this.handleToggle = this.handleToggle.bind(this);
+    this.handleViewTypeToogle = this.handleViewTypeToogle.bind(this);
     this.renderStories = this.renderStories.bind(this);
   }
 
@@ -40,7 +39,13 @@ export default class ContentsList extends Component {
     }
   }
 
-  handleToggle(ev) {
+  handleLikeClick(didUserLike, storyId, ev) {
+    const { onLikeClick } = this.props;
+
+    onLikeClick(didUserLike, storyId);
+  }
+
+  handleViewTypeToogle(ev) {
     const { viewType } = this.state;
 
     if (viewType === 'list') {
@@ -57,11 +62,23 @@ export default class ContentsList extends Component {
   renderStories() {
     const {
       stories,
+      uid,
       match: { params }
     } = this.props;
 
     return stories.map((story, index) => {
       const timeString = new Date(story.createdAt).toLocaleDateString();
+      let didUserLike = false;
+
+      for (let i = 0; i < story.like.length; i++) {
+        if (story.like[i].uid === uid) {
+          didUserLike = true;
+
+          break;
+        }
+      }
+
+      console.log('new REturn', didUserLike);
 
       return (
         <li key={index} className="ContentsList__main__list__item">
@@ -90,10 +107,18 @@ export default class ContentsList extends Component {
                 <Link to="#">{story.summary}</Link>
               </p>
               <div className="utils">
-                <button type="button" className="like-btn">
-                  <FontAwesomeIcon icon={faHeart} />
+                <button
+                  type="button"
+                  className="like-btn"
+                  onClick={this.handleLikeClick.bind(this, didUserLike, story._id)}
+                >
+                  {didUserLike ? (
+                    <FontAwesomeIcon icon="heart" />
+                  ) : (
+                    <FontAwesomeIcon icon={['far', 'heart']} />
+                  )}
                 </button>
-                <span>{story.like}</span>
+                <span>{story.like.length}</span>
               </div>
             </div>
           </div>
@@ -104,7 +129,13 @@ export default class ContentsList extends Component {
 
   render() {
     const { viewType } = this.state;
-    const { isLoading, stories, sortType } = this.props;
+    const {
+      isLoading,
+      stories,
+      sortType,
+      match: { params }
+    } = this.props;
+    const category = params.category || 'All Categories';
 
     return (
       <div className="ContentsList">
@@ -112,7 +143,7 @@ export default class ContentsList extends Component {
           {stories.length ? (
             <Fragment>
               <span>{sortType}</span>
-              <span>: answer</span>
+              <span>: {category}</span>
             </Fragment>
           ) : (
             <span>...Loading</span>
@@ -120,12 +151,12 @@ export default class ContentsList extends Component {
           <button
             type="button"
             className="ContentsList__header__toggle-btn"
-            onClick={this.handleToggle}
+            onClick={this.handleViewTypeToogle}
           >
             {viewType === 'list' ? (
-              <FontAwesomeIcon icon={faListUl} />
+              <FontAwesomeIcon icon="list-ul" />
             ) : (
-              <FontAwesomeIcon icon={faTh} />
+              <FontAwesomeIcon icon="th" />
             )}
           </button>
         </div>

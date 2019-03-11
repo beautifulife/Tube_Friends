@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
 import LoginContainer from '../containers/LoginContainer';
 import ProfileContainer from '../containers/ProfileContainer';
 import SearchBar from '../containers/SearchBarContainer';
@@ -71,7 +70,7 @@ export default class Header extends Component {
           </div>
           <div className="Header__utils">
             <Link to="#" className="Header__utils__plus">
-              <FontAwesomeIcon icon={faPen} />
+              <FontAwesomeIcon icon="pen" />
             </Link>
             {isUserLoggedIn ? (
               <span className="Header__utils__profile">
@@ -100,7 +99,7 @@ export default class Header extends Component {
               }
               onClick={this.handleMenuClick}
             >
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon icon="bars" />
             </button>
           </div>
         </nav>
