@@ -9,6 +9,7 @@ const verifySearchKeyword = require('./middlewares/verifySearchKeyword');
 const {
   createStory,
   getStories,
+  getStory,
   searchStories,
   toggleLike
 } = require('./controllers/storyController');
@@ -44,6 +45,7 @@ app.get('/api/categories', getCategories);
 app.post('/api/categories/new', _createCategories);
 
 app.get('/api/stories', getStories);
+app.get('/api/stories/:story_id', getStory);
 app.post('/api/stories/new', verifyAccessToken, verifyIdToken, createStory);
 app.put('/api/stories/:story_id/like', verifyAccessToken, verifyIdToken, toggleLike);
 app.get('/api/search', verifySearchKeyword, searchStories);

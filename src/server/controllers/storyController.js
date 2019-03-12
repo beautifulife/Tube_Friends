@@ -120,6 +120,31 @@ const getStories = async (req, res, next) => {
   }
 };
 
+const getStory = async (req, res, next) => {
+  try {
+    const storyId = req.params.story_id;
+
+    if (!storyId) {
+      return next(createError(400));
+    }
+
+    const story = await Stories.findOne()
+      .where('_id')
+      .equals(storyId);
+
+    if (!story) {
+      return next(createError(404));
+    }
+
+    res.json({
+      story
+    });
+  } catch (err) {
+    console.error(err);
+    next(createError(500));
+  }
+};
+
 const searchStories = async (req, res, next) => {
   try {
     const page = res.locals.page;
@@ -198,6 +223,7 @@ const toggleLike = async (req, res, next) => {
 module.exports = {
   createStory,
   getStories,
+  getStory,
   searchStories,
   toggleLike
 };
