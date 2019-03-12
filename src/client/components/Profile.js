@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Profile = ({ onLogOutClick, displayName }) => {
+const Profile = ({ onLogOutClick, username }) => {
   function handleLogOutClick(ev) {
     onLogOutClick();
   }
@@ -10,8 +10,8 @@ const Profile = ({ onLogOutClick, displayName }) => {
   return (
     <div className="Profile">
       <ul className="Profile__list">
-        <li className="Profile__list__title">{displayName}</li>
-        <Link to={`/${displayName}`}>
+        <li className="Profile__list__title">{username}</li>
+        <Link to={`/${username}`}>
           <li className="Profile__list__item">
             <FontAwesomeIcon icon="user" />
             <span>My Page</span>

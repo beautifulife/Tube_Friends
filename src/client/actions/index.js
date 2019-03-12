@@ -38,15 +38,18 @@ export const fetchStoriesRequested = () => ({
   isLoading: true
 });
 
-export const logInComplete = user => ({
+export const logInComplete = (user, accessToken) => ({
   type: Types.LOG_IN_COMPLETE,
   isLoading: false,
   isLoginActive: false,
   isUserLoggedIn: true,
-  accessToken: user.stsTokenManager.accessToken,
-  uid: user.uid,
+  accessToken,
   photoURL: user.photoURL,
-  username: user.email.split('@')[0]
+  subscribe: user.subscribe,
+  subscriber: user.subscriber,
+  uid: user.uid,
+  userId: user._id,
+  username: user.username,
 });
 
 export const logInError = () => ({
@@ -85,6 +88,22 @@ export const searchStoriesComplete = (stories, page) => ({
   type: Types.SEARCH_STORIES_COMPLETE,
   stories,
   page
+});
+
+export const subscriptionToggleComplete = (subscribe) => ({
+  type: Types.SUBSCRIPTION_TOGGLE_COMPLETE,
+  isLoading: false,
+  subscribe
+});
+
+export const subscriptionToggleError = () => ({
+  type: Types.SUBSCRIPTION_TOGGLE_ERROR,
+  isLoading: false
+});
+
+export const subscriptionToggleRequested = () => ({
+  type: Types.SUBSCRIPTION_TOGGLE_REQUESTED,
+  isLoading: true
 });
 
 export const toggleMenu = isMenuActive => ({

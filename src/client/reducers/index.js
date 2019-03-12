@@ -11,6 +11,9 @@ const initialState = {
   photoURL: '',
   page: 0,
   stories: [],
+  subscribe: [],
+  subscriber: [],
+  userId: '',
   uid: '',
   username: ''
 };
@@ -58,8 +61,11 @@ const rootReducer = (state = initialState, action) => {
     newState.isLoginActive = action.isLoginActive;
     newState.isUserLoggedIn = action.isUserLoggedIn;
     newState.accessToken = action.accessToken;
-    newState.uid = action.uid;
     newState.photoURL = action.photoURL;
+    newState.subscribe = action.subscribe;
+    newState.subscriber = action.subscriber;
+    newState.uid = action.uid;
+    newState.userId = action.userId;
     newState.username = action.username;
 
     return newState;
@@ -92,7 +98,7 @@ const rootReducer = (state = initialState, action) => {
           for (let j = 0; j < newState.stories[i].like.length; j++) {
             if (newState.stories[i].like[j]._id === action.user._id) {
               newState.stories[i].like.splice(j, 1);
-              console.log('remove success');
+
               break;
             }
           }
@@ -119,6 +125,22 @@ const rootReducer = (state = initialState, action) => {
   case Types.SEARCH_STORIES_COMPLETE:
     newState.stories = action.stories;
     newState.page = action.page;
+
+    return newState;
+
+  case Types.SUBSCRIPTION_TOGGLE_COMPLETE:
+    newState.isLoading = action.isLoading;
+    newState.subscribe = action.subscribe;
+
+    return newState;
+
+  case Types.SUBSCRIPTION_TOGGLE_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.SUBSCRIPTION_TOGGLE_REQUESTED:
+    newState.isLoading = action.isLoading;
 
     return newState;
 

@@ -7,8 +7,10 @@ export default class ContentsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewType: 'list'
+      viewType: 'list',
+      targetStoryId: ''
     };
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleViewTypeToogle = this.handleViewTypeToogle.bind(this);
     this.renderStories = this.renderStories.bind(this);
   }
@@ -45,6 +47,25 @@ export default class ContentsList extends Component {
     onLikeClick(didUserLike, storyId);
   }
 
+  handleMouseEnter(storyId, ev) {
+    this.setState({
+      targetStoryId: storyId
+    });
+  }
+
+  handleMouseLeave(ev) {
+    console.log('mouseleave');
+    this.setState({
+      targetStoryId: ''
+    });
+  }
+
+  handleSubscriptionClick(action, targetUserId, ev) {
+    const { onSubscriptionClick } = this.props;
+
+    onSubscriptionClick(action, targetUserId);
+  }
+
   handleViewTypeToogle(ev) {
     const { viewType } = this.state;
 
@@ -60,14 +81,18 @@ export default class ContentsList extends Component {
   }
 
   renderStories() {
+    const { targetStoryId } = this.state;
     const {
       stories,
+      subscribe,
       uid,
+      userId,
       match: { params }
     } = this.props;
 
     return stories.map((story, index) => {
       const timeString = new Date(story.createdAt).toLocaleDateString();
+      const isUserSubscribed = subscribe.includes(story.userId._id);
       let didUserLike = false;
 
       for (let i = 0; i < story.like.length; i++) {
@@ -83,8 +108,48 @@ export default class ContentsList extends Component {
       return (
         <li key={index} className="ContentsList__main__list__item">
           <div className="header">
-            <span>
+            <span
+              className="header__username"
+              onMouseEnter={this.handleMouseEnter.bind(this, story._id)}
+              onMouseLeave={this.handleMouseLeave}
+            >
               <Link to="#">{story.userId.username}</Link>
+              {targetStoryId === story._id ? (
+                <div className="header__username__modal">
+                  <div className="title">
+                    Do You Like This Story? <br /> Then Follow Awesome Curator!
+                  </div>
+                  {userId !== story.userId._id ? (
+                    <Fragment>
+                      {isUserSubscribed ? (
+                        <button
+                          type="button"
+                          className="unsubscribe-btn"
+                          onClick={this.handleSubscriptionClick.bind(
+                            this,
+                            'unsubscribe',
+                            story.userId._id
+                          )}
+                        >
+                          Subscribing
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="subscribe-btn"
+                          onClick={this.handleSubscriptionClick.bind(
+                            this,
+                            'subscribe',
+                            story.userId._id
+                          )}
+                        >
+                          Subscribe
+                        </button>
+                      )}
+                    </Fragment>
+                  ) : null}
+                </div>
+              ) : null}
             </span>
             <span>
               <Link to={`/${params.sort}/${story.categoryId.title}`}>
@@ -110,7 +175,11 @@ export default class ContentsList extends Component {
                 <button
                   type="button"
                   className="like-btn"
-                  onClick={this.handleLikeClick.bind(this, didUserLike, story._id)}
+                  onClick={this.handleLikeClick.bind(
+                    this,
+                    didUserLike,
+                    story._id
+                  )}
                 >
                   {didUserLike ? (
                     <FontAwesomeIcon icon="heart" />
@@ -143,7 +212,7 @@ export default class ContentsList extends Component {
           {stories.length ? (
             <Fragment>
               <span>{sortType}</span>
-              <span>: {category}</span>
+              <span> : {category}</span>
             </Fragment>
           ) : (
             <span>...Loading</span>

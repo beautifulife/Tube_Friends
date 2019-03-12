@@ -3,6 +3,8 @@ import Header from '../components/Header';
 import {
   activateLoginPage,
   logInComplete,
+  logInError,
+  logInRequested,
   toggleMenu,
   toggleProfile
 } from '../actions';
@@ -32,12 +34,35 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onInit: (isLoginActive) => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(async (user) => {
       console.log('auth load', user);
-      if (user && !isLoginActive) {
-        dispatch(
-          logInComplete(JSON.parse(JSON.stringify(user)))
-        );
+      if (user) {
+        console.log('log in again');
+        dispatch(logInRequested());
+
+        try {
+          let res = await fetch('/api/auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+          });
+
+          if (res.status !== 200) {
+            throw new Error(`responsed ${res.status}`);
+          }
+
+          res = await res.json();
+          dispatch(
+            logInComplete(res.user, res.accessToken)
+          );
+        } catch (err) {
+          console.error(err);
+          dispatch(logInError());
+          auth.signOut();
+          window.location.reload();
+        }
       }
     });
   },

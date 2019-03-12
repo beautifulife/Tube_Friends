@@ -7,13 +7,16 @@ import {
   fetchStoriesRequested,
   likeToggleComplete,
   likeToggleError,
-  likeToggleRequested
+  likeToggleRequested,
+  subscriptionToggleComplete,
+  subscriptionToggleError,
+  subscriptionToggleRequested
 } from '../actions';
 
 const mapStateToProps = state => {
-  const { isLoading, stories, sortType, uid } = state;
+  const { isLoading, stories, sortType, subscribe, uid } = state;
 
-  return { isLoading, stories, sortType, uid };
+  return { isLoading, stories, sortType, subscribe, uid };
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -47,6 +50,7 @@ const mapDispatchToProps = dispatch => ({
       .stsTokenManager.accessToken;
 
     dispatch(likeToggleRequested());
+
     try {
       let res = await fetch(`/api/stories/${storyId}/like`, {
         method: 'PUT',
@@ -68,6 +72,37 @@ const mapDispatchToProps = dispatch => ({
     } catch (err) {
       console.error(err);
       dispatch(likeToggleError());
+    }
+  },
+  onSubscriptionClick: async (action, targetUserId) => {
+    const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
+      .stsTokenManager.accessToken;
+
+    dispatch(subscriptionToggleRequested());
+
+    try {
+      let res = await fetch(`/api/users/${targetUserId}/subscription`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action })
+      });
+
+      if (res.status !== 200) {
+        throw new Error(`responsed ${res.status}`);
+      }
+
+      res = await res.json();
+
+      dispatch(
+        subscriptionToggleComplete(res.subscribe)
+      );
+      console.log('done');
+    } catch (err) {
+      console.error(err);
+      dispatch(subscriptionToggleError());
     }
   }
 });
