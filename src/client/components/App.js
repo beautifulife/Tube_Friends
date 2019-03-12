@@ -20,15 +20,24 @@ export default class App extends Component {
     return (
       <Router>
         <div className="App">
-          <HeaderContainer />
           <div className="App__section">
             <Switch>
               <Redirect exact path="/" to="/hottest" />
-              {/* <Route path="/search" component={SearchPage} /> */}
+              <Route
+                path="/:username/feed"
+                render={(props) => (
+                  <Fragment>
+                    <HeaderContainer {...props} />
+                    <CategoryContainer {...props} />
+                    <ContentsListContainer {...props} />
+                  </Fragment>
+                )}
+              />
               <Route
                 path="/:sort/:category"
                 render={(props) => (
                   <Fragment>
+                    <HeaderContainer {...props} />
                     <CategoryContainer {...props} />
                     <ContentsListContainer {...props} />
                   </Fragment>
@@ -38,6 +47,7 @@ export default class App extends Component {
                 path="/:sort"
                 render={(props) => (
                   <Fragment>
+                    <HeaderContainer {...props} />
                     <CategoryContainer {...props} />
                     <ContentsListContainer {...props} />
                   </Fragment>

@@ -9,13 +9,25 @@ export default class Category extends Component {
   }
 
   render() {
-    const { categories, isUserLoggedIn, username, match } = this.props;
-    const sort = match.params.category === 'feed' ? 'hottest' : match.params.sort;
+    const {
+      categories,
+      isUserLoggedIn,
+      username,
+      match: { params }
+    } = this.props;
+    const sort = params.username ? 'hottest' : params.sort;
 
     const renderCategories = () => {
       return categories.map(category => {
         return (
-          <li key={category._id}>
+          <li
+            key={category._id}
+            className={
+              params.category === category.title
+                ? 'active'
+                : null
+            }
+          >
             <Link to={`/${sort}/${category.title}`}>{category.title}</Link>
           </li>
         );
@@ -28,11 +40,23 @@ export default class Category extends Component {
           {categories.length ? (
             <Fragment>
               {isUserLoggedIn && (
-                <li className="main-btn my-feed">
-                  <Link to={`/@${username}`}>My Feed</Link>
+                <li
+                  className={
+                    params.username
+                      ? 'main-btn my-feed active'
+                      : 'main-btn my-feed'
+                  }
+                >
+                  <Link to={`/${username}/feed`}>My Feed</Link>
                 </li>
               )}
-              <li className="main-btn">
+              <li
+                className={
+                  params.sort && !params.category
+                    ? 'main-btn active'
+                    : 'main-btn'
+                }
+              >
                 <Link to={`/${sort}`}>All Categories</Link>
               </li>
               {renderCategories()}

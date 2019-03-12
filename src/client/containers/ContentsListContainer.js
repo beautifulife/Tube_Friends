@@ -14,19 +14,19 @@ import {
 } from '../actions';
 
 const mapStateToProps = state => {
-  const { isLoading, stories, sortType, subscribe, uid } = state;
+  const { isLoading, stories, sortType, subscribe, uid, userId } = state;
 
-  return { isLoading, stories, sortType, subscribe, uid };
+  return { isLoading, stories, sortType, subscribe, uid, userId };
 };
 
 const mapDispatchToProps = dispatch => ({
   onInit: async (sort, category) => {
-    sort = sort || '';
-    category = category || '';
-
     dispatch(fetchStoriesRequested());
 
     try {
+      sort = sort || '';
+      category = category || '';
+
       let res = await fetch(
         `/api/stories?sort=${sort}&category=${category}&page=1`
       );
@@ -36,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
       }
 
       res = await res.json();
+
       dispatch(
         fetchStoriesComplete(res.stories, res.sort, res.category, res.page)
       );
@@ -44,14 +45,43 @@ const mapDispatchToProps = dispatch => ({
       dispatch(fetchStoriesError());
     }
   },
-  onLikeClick: async (didUserLike, storyId) => {
-    const action = didUserLike ? 'remove' : 'add';
-    const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
-      .stsTokenManager.accessToken;
+  onInitFeed: async (userId) => {
+    dispatch(fetchStoriesRequested());
 
+    try {
+      const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
+        .stsTokenManager.accessToken;
+
+      let res = await fetch(
+        `/api/users/${userId}/feed?page=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
+
+      if (res.status !== 200) {
+        throw new Error(`responsed ${res.status}`);
+      }
+
+      res = await res.json();
+      dispatch(
+        fetchStoriesComplete(res.stories, 'feed', 'feed', res.page)
+      );
+    } catch (err) {
+      console.error(err);
+      dispatch(fetchStoriesError());
+    }
+  },
+  onLikeClick: async (didUserLike, storyId) => {
     dispatch(likeToggleRequested());
 
     try {
+      const action = didUserLike ? 'remove' : 'add';
+      const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
+        .stsTokenManager.accessToken;
+
       let res = await fetch(`/api/stories/${storyId}/like`, {
         method: 'PUT',
         headers: {
@@ -75,12 +105,12 @@ const mapDispatchToProps = dispatch => ({
     }
   },
   onSubscriptionClick: async (action, targetUserId) => {
-    const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
-      .stsTokenManager.accessToken;
-
     dispatch(subscriptionToggleRequested());
 
     try {
+      const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
+        .stsTokenManager.accessToken;
+
       let res = await fetch(`/api/users/${targetUserId}/subscription`, {
         method: 'PUT',
         headers: {

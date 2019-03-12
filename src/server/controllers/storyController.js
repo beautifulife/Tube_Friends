@@ -108,8 +108,6 @@ const getStories = async (req, res, next) => {
       }
     }
 
-    console.log('send', stories);
-
     res.json({
       sort,
       category,

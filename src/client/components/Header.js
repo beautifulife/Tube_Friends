@@ -20,6 +20,10 @@ export default class Header extends Component {
     onInit(isLoginActive);
   }
 
+  componentDidUpdate() {
+    console.log(this.props);
+  }
+
   handleLoginClick(ev) {
     const { onLoginClick } = this.props;
 
@@ -45,6 +49,7 @@ export default class Header extends Component {
       isProfileActive,
       isUserLoggedIn,
       userProfile: { photoURL, displayName },
+      match: { params }
     } = this.props;
 
     return (
@@ -57,11 +62,35 @@ export default class Header extends Component {
           </div>
           <div className="Header__sort">
             <ul className="Header__sort__list">
-              <li className="Header__sort__list__item">
-                <Link to="#">Hottest</Link>
+              <li
+                className={
+                  params.sort === 'hottest'
+                    ? 'Header__sort__list__item active'
+                    : 'Header__sort__list__item'
+                }
+              >
+                <Link
+                  to={
+                    params.category ? `/hottest/${params.category}` : '/hottest'
+                  }
+                >
+                  Hottest
+                </Link>
               </li>
-              <li className="Header__sort__list__item">
-                <Link to="#">Newest</Link>
+              <li
+                className={
+                  params.sort === 'newest'
+                    ? 'Header__sort__list__item active'
+                    : 'Header__sort__list__item'
+                }
+              >
+                <Link
+                  to={
+                    params.category ? `/newest/${params.category}` : '/newest'
+                  }
+                >
+                  Newest
+                </Link>
               </li>
             </ul>
           </div>

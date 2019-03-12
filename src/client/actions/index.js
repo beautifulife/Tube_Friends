@@ -22,10 +22,11 @@ export const fetchCategoriesError = () => ({
 
 export const fetchStoriesComplete = (stories, sortType, category, page) => ({
   type: Types.FETCH_STORIES_COMPLETE,
-  stories,
-  sortType,
+  isLoading: false,
   category,
-  isLoading: false
+  page,
+  stories,
+  sortType
 });
 
 export const fetchStoriesError = () => ({

@@ -44,15 +44,11 @@ const authenticateUser = async (req, res, next) => {
 const getFeed = async (req, res, next) => {
   try {
     const uid = res.locals.uid;
-    const user_id = req.params.user_id;
+    const userId = req.params.user_id;
     const page = req.query.page || 1;
 
-    if (!user_id) {
+    if (!userId) {
       return next(createError(400));
-    }
-
-    if (uid !== user_id) {
-      return next(createError(403, `forbidden feed request occured ${user_id}`));
     }
 
     const user = await Users.findOne()
@@ -72,10 +68,13 @@ const getFeed = async (req, res, next) => {
       .in(subscribeList)
       .sort('-createdAt')
       .skip((page - 1) * 30)
-      .limit(page * 30);
+      .limit(page * 30)
+      .populate('userId', 'username')
+      .populate('categoryId', 'title')
+      .populate('like', 'username uid');
 
     res.json({
-      uid,
+      userId,
       page,
       stories
     });

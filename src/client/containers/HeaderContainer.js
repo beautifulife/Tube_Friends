@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import {
@@ -33,7 +34,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onInit: (isLoginActive) => {
+  onInit: () => {
     auth.onAuthStateChanged(async (user) => {
       console.log('auth load', user);
       if (user) {
@@ -77,7 +78,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header);
+)(Header));

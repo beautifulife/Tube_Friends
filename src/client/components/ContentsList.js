@@ -18,8 +18,16 @@ export default class ContentsList extends Component {
   componentDidMount() {
     const {
       onInit,
+      onInitFeed,
+      userId,
       match: { params }
     } = this.props;
+
+    console.log(params);
+
+    if (params.username) {
+      return;
+    }
 
     onInit(params.sort, params.category);
   }
@@ -28,15 +36,25 @@ export default class ContentsList extends Component {
     const prevParams = prevProps.match.params;
     const {
       onInit,
+      onInitFeed,
+      userId,
       match: { params }
     } = this.props;
 
-    console.log(params, prevParams);
+    console.log(params);
+
+    if (userId !== prevProps.userId) {
+      return onInitFeed(userId);
+    }
 
     if (
       params.sort !== prevParams.sort ||
       params.category !== prevParams.category
     ) {
+      if (params.username) {
+        return onInitFeed(userId);
+      }
+
       onInit(params.sort, params.category);
     }
   }
@@ -54,7 +72,6 @@ export default class ContentsList extends Component {
   }
 
   handleMouseLeave(ev) {
-    console.log('mouseleave');
     this.setState({
       targetStoryId: ''
     });
@@ -102,8 +119,6 @@ export default class ContentsList extends Component {
           break;
         }
       }
-
-      console.log('new REturn', didUserLike);
 
       return (
         <li key={index} className="ContentsList__main__list__item">
@@ -209,7 +224,7 @@ export default class ContentsList extends Component {
     return (
       <div className="ContentsList">
         <div className="ContentsList__header">
-          {stories.length ? (
+          {stories && stories.length ? (
             <Fragment>
               <span>{sortType}</span>
               <span> : {category}</span>
@@ -231,7 +246,7 @@ export default class ContentsList extends Component {
         </div>
         <div className="ContentsList__main">
           <ul className="ContentsList__main__list">
-            {stories.length ? this.renderStories() : null}
+            {stories && stories.length ? this.renderStories() : null}
           </ul>
         </div>
         {isLoading && <Spinner />}
