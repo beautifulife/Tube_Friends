@@ -15,7 +15,7 @@ const createStory = async (req, res, next) => {
       .select('_id');
 
     if (!userId) {
-      return next(createError(403));
+      return next(createError(400));
     }
     console.log(userId, title, content, summary, link, thumbnail);
 
@@ -31,7 +31,16 @@ const createStory = async (req, res, next) => {
 
     await newStory.save();
 
-    res.send();
+    const user = await Users.findOneAndUpdate(
+      { _id: userId._id },
+      { $push: { stories: newStory._id } },
+      { new: true }
+    );
+
+    res.json({
+      story: newStory,
+      user
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send();
@@ -54,16 +63,16 @@ const getStories = async (req, res, next) => {
           .sort('-like')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title')
+          .populate('userId', 'username')
+          .populate('categoryId', 'title')
           .populate('like', 'username uid');
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .sort('-createdAt')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title')
+          .populate('userId', 'username')
+          .populate('categoryId', 'title')
           .populate('like', 'username uid');
       }
     } else {
@@ -83,8 +92,8 @@ const getStories = async (req, res, next) => {
           .sort('-like')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title')
+          .populate('userId', 'username')
+          .populate('categoryId', 'title')
           .populate('like', 'username uid');
       } else if (sort === 'newest') {
         stories = await Stories.find()
@@ -93,8 +102,8 @@ const getStories = async (req, res, next) => {
           .sort('-createdAt')
           .skip((page - 1) * 30)
           .limit(page * 30)
-          .populate('userId', '-_id username')
-          .populate('categoryId', '-_id title')
+          .populate('userId', 'username')
+          .populate('categoryId', 'title')
           .populate('like', 'username uid');
       }
     }
@@ -150,6 +159,7 @@ const toggleLike = async (req, res, next) => {
     const uid = res.locals.uid;
     const storyId = req.params.story_id;
     const action = req.body.action;
+    const method = action === 'remove' ? '$pull' : '$push';
 
     console.log(storyId, action, uid);
 
@@ -169,18 +179,12 @@ const toggleLike = async (req, res, next) => {
 
     console.log(storyId, testId, action);
 
-    let story;
-
-    if (action === 'add') {
-      story = await Stories.findOneAndUpdate({ $push: { like: user._id } })
-        .where('_id')
-        .equals(storyId);
-      console.log('action done');
-    } else if (action === 'remove') {
-      story = await Stories.findOneAndUpdate({ $pull: { like: user._id } })
-        .where('_id')
-        .equals(storyId);
-    }
+    const story = await Stories.findOneAndUpdate({
+      [method]: { like: user._id }
+    })
+      .where('_id')
+      .equals(storyId);
+    console.log('action done');
 
     console.log(story);
 

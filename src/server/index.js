@@ -15,7 +15,7 @@ const {
 const {
   authenticateUser,
   getFeed,
-  subscribeUser
+  toggleSubscribe
 } = require('./controllers/userController');
 const {
   getCategories,
@@ -50,10 +50,10 @@ app.get('/api/search', verifySearchKeyword, searchStories);
 
 app.get('/api/users/:user_id/feed', verifyAccessToken, verifyIdToken, getFeed);
 app.put(
-  '/api/users/:username/subscribe',
+  '/api/users/:target_user_id/subscription',
   verifyAccessToken,
   verifyIdToken,
-  subscribeUser
+  toggleSubscribe
 );
 
 app.listen(5000, () => console.log('Listening on port 5000!'));
