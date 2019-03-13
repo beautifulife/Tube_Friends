@@ -98,7 +98,7 @@ export default class Header extends Component {
             <SearchBar />
           </div>
           <div className="Header__utils">
-            <Link to="#" className="Header__utils__plus">
+            <Link to="/" className="Header__utils__plus">
               <FontAwesomeIcon icon="pen" />
             </Link>
             {isUserLoggedIn ? (

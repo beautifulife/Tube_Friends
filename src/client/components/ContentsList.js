@@ -43,7 +43,7 @@ export default class ContentsList extends Component {
 
     console.log(params);
 
-    if (userId !== prevProps.userId) {
+    if (params.username && userId !== prevProps.userId) {
       return onInitFeed(userId);
     }
 
@@ -128,7 +128,9 @@ export default class ContentsList extends Component {
               onMouseEnter={this.handleMouseEnter.bind(this, story._id)}
               onMouseLeave={this.handleMouseLeave}
             >
-              <Link to="#">{story.userId.username}</Link>
+              <Link to="#">
+                {story.userId.username}
+              </Link>
               {targetStoryId === story._id ? (
                 <div className="header__username__modal">
                   <div className="title">
@@ -167,7 +169,7 @@ export default class ContentsList extends Component {
               ) : null}
             </span>
             <span>
-              <Link to={`/${params.sort}/${story.categoryId.title}`}>
+              <Link to={`/hottest/${story.categoryId.title}`}>
                 {story.categoryId.title}
               </Link>
             </span>
@@ -175,16 +177,32 @@ export default class ContentsList extends Component {
           </div>
           <div className="main">
             <div className="main__thumbnail">
-              <Link to="#">
+              <Link
+                to={`/${story.categoryId.title}/${story.userId.username}/${
+                  story._id
+                }`}
+              >
                 <img src={`${story.thumbnail}`} alt={story.title} />
               </Link>
             </div>
             <div className="main__info">
               <p className="title">
-                <Link to="#">{story.title}</Link>
+                <Link
+                  to={`/${story.categoryId.title}/${story.userId.username}/${
+                    story._id
+                  }`}
+                >
+                  {story.title}
+                </Link>
               </p>
               <p className="summary">
-                <Link to="#">{story.summary}</Link>
+                <Link
+                  to={`/${story.categoryId.title}/${story.userId.username}/${
+                    story._id
+                  }`}
+                >
+                  {story.summary}
+                </Link>
               </p>
               <div className="utils">
                 <button

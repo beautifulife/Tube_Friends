@@ -1,7 +1,8 @@
 $base-color: #ff0000;
 $background-color: #fcfcfc;
+$border-color: #dfdfdf;
 
-@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono|Lato:300,300i,400,400i');
 @import "../../../node_modules/normalize-scss/sass/normalize/import-now";
 @import 'App';
 @import 'Category';
@@ -12,3 +13,4 @@ $background-color: #fcfcfc;
 @import 'Profile';
 @import 'SearchBar';
 @import 'Spinner';
+@import 'Story';

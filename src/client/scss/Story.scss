@@ -1,0 +1,118 @@
+.Story {
+  flex: 1;
+  max-width: 50rem;
+  padding: 1rem 0;
+  border: 1px solid $border-color;
+
+  &__header {
+    max-width: 40rem;
+    margin: 0 auto;
+    border-bottom: 1px solid $border-color;
+
+    &__title {
+    }
+
+    &__info {
+      margin: 1rem 0;
+
+      span {
+        margin-right: 1rem;
+        color: rgba(0, 0, 0, 0.4);
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          color: $base-color;
+        }
+      }
+
+      .username {
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.8);
+        position: relative;
+
+        &__modal {
+          position: absolute;
+          bottom: 0;
+          transform: translateY(100%);
+          z-index: 90;
+          text-align: right;
+          width: 260%;
+          padding: 0.5rem 1rem;
+          border: 1px solid rgb(206, 206, 206);
+          font-size: 0.9rem;
+          background-color: #fcfcfc;
+
+          .title {
+            text-align: left;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            line-height: 1.5rem;
+            color: rgba(0, 0, 0, 0.6);
+          }
+
+          button {
+            padding: 0.5rem;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+              opacity: 0.65;
+            }
+          }
+
+          .subscribe-btn {
+            color: $base-color;
+            border-color: $base-color;
+          }
+
+          .unsubscribe-btn {
+            color: #fcfcfc;
+            background-color: $base-color;
+            border-color: $base-color;
+          }
+        }
+      }
+    }
+  }
+
+  &__main {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 1rem 0;
+    border-bottom: 1px solid $border-color;
+
+    &__markdown {
+      margin-bottom: 2rem;
+    }
+
+    &__player {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      padding-bottom: 56.6%;
+      margin-bottom: 1rem;
+
+      .tube-player {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  &__utils {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 1rem 0;
+
+    .like-btn {
+      margin-right: 0.5rem;
+    }
+  }
+}

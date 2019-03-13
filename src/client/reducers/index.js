@@ -11,6 +11,7 @@ const initialState = {
   photoURL: '',
   page: 0,
   stories: [],
+  story: {},
   subscribe: [],
   subscriber: [],
   userId: '',
@@ -56,6 +57,22 @@ const rootReducer = (state = initialState, action) => {
 
     return newState;
 
+  case Types.FETCH_STORY_COMPLETE:
+    newState.isLoading = action.isLoading;
+    newState.story = action.story;
+
+    return newState;
+
+  case Types.FETCH_STORY_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.FETCH_STORY_REQUESTED:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
   case Types.LOG_IN_COMPLETE:
     newState.isLoading = action.isLoading;
     newState.isLoginActive = action.isLoginActive;
@@ -92,6 +109,10 @@ const rootReducer = (state = initialState, action) => {
           break;
         }
       }
+
+      if (Object.keys(newState.story)) {
+        newState.story.like.push(action.user);
+      }
     } else {
       for (let i = 0; i < newState.stories.length; i++) {
         if (newState.stories[i]._id === action.storyId) {
@@ -104,6 +125,16 @@ const rootReducer = (state = initialState, action) => {
           }
 
           break;
+        }
+      }
+
+      if (Object.keys(newState.story)) {
+        for (let i = 0; i < newState.story.like.length; i++) {
+          if (newState.story.like[i]._id === action.user._id) {
+            newState.story.like.splice(i, 1);
+
+            break;
+          }
         }
       }
     }

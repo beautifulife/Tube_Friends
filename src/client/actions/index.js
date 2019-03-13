@@ -39,6 +39,22 @@ export const fetchStoriesRequested = () => ({
   isLoading: true
 });
 
+export const fetchStoryComplete = story => ({
+  type: Types.FETCH_STORY_COMPLETE,
+  isLoading: false,
+  story
+});
+
+export const fetchStoryError = () => ({
+  type: Types.FETCH_STORY_ERROR,
+  isLoading: false
+});
+
+export const fetchStoryRequested = () => ({
+  type: Types.FETCH_STORY_REQUESTED,
+  isLoading: true
+});
+
 export const logInComplete = (user, accessToken) => ({
   type: Types.LOG_IN_COMPLETE,
   isLoading: false,

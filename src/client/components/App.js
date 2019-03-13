@@ -9,6 +9,7 @@ import {
 import HeaderContainer from '../containers/HeaderContainer';
 import CategoryContainer from '../containers/CategoryContainer';
 import ContentsListContainer from '../containers/ContentsListContainer';
+import StoryContainer from '../containers/StoryContainer';
 
 export default class App extends Component {
   constructor(props) {
@@ -24,6 +25,17 @@ export default class App extends Component {
             <Switch>
               <Redirect exact path="/" to="/hottest" />
               <Route
+                exact
+                path="/:category/:username/:story_id"
+                render={(props) => (
+                  <Fragment>
+                    <HeaderContainer {...props} />
+                    <StoryContainer {...props} />
+                  </Fragment>
+                )}
+              />
+              <Route
+                exact
                 path="/:username/feed"
                 render={(props) => (
                   <Fragment>
@@ -34,6 +46,7 @@ export default class App extends Component {
                 )}
               />
               <Route
+                exact
                 path="/:sort/:category"
                 render={(props) => (
                   <Fragment>
@@ -44,6 +57,7 @@ export default class App extends Component {
                 )}
               />
               <Route
+                exact
                 path="/:sort"
                 render={(props) => (
                   <Fragment>

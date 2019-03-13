@@ -13,6 +13,7 @@ const authenticateUser = async (req, res, next) => {
   try {
     const user = await Users.findOne({ uid });
 
+    console.log(user, uid);
     if (user) {
       return res.json({
         user,
@@ -67,6 +68,7 @@ const getFeed = async (req, res, next) => {
       .where('userId')
       .in(subscribeList)
       .sort('-createdAt')
+      .select('-content -link')
       .skip((page - 1) * 30)
       .limit(page * 30)
       .populate('userId', 'username')
@@ -95,6 +97,8 @@ const toggleSubscribe = async (req, res, next) => {
       .where('uid')
       .equals(uid)
       .select('_id');
+
+    console.log(uid, userId);
 
     if (!userId) {
       return next(createError(400));

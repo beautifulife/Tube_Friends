@@ -61,6 +61,7 @@ const getStories = async (req, res, next) => {
           .where('createdAt')
           .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
+          .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', 'username')
@@ -69,6 +70,7 @@ const getStories = async (req, res, next) => {
       } else if (sort === 'newest') {
         stories = await Stories.find()
           .sort('-createdAt')
+          .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', 'username')
@@ -90,6 +92,7 @@ const getStories = async (req, res, next) => {
           .where('createdAt')
           .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like')
+          .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', 'username')
@@ -100,6 +103,7 @@ const getStories = async (req, res, next) => {
           .where('categoryId')
           .equals(categoryId._id)
           .sort('-createdAt')
+          .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)
           .populate('userId', 'username')
@@ -130,7 +134,10 @@ const getStory = async (req, res, next) => {
 
     const story = await Stories.findOne()
       .where('_id')
-      .equals(storyId);
+      .equals(storyId)
+      .populate('userId', 'username')
+      .populate('categoryId', 'title')
+      .populate('like', 'username uid');
 
     if (!story) {
       return next(createError(404));
@@ -165,7 +172,11 @@ const searchStories = async (req, res, next) => {
           }
         }
       ]
-    });
+    })
+      .select('-content -link')
+      .populate('userId', 'username')
+      .populate('categoryId', 'title')
+      .populate('like', 'username uid');
 
     res.json({
       stories,
