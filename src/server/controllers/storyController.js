@@ -7,7 +7,12 @@ const Users = require('../models/User');
 const createStory = async (req, res, next) => {
   try {
     const uid = res.locals.uid;
-    const { categoryId, title, content, summary, link, thumbnail } = req.body;
+    const { categoryId, title, content, link } = req.body;
+    const thumbnail = req.body.thumbnail || 'https://i.imgur.com/sshNOm6.png';
+    
+    if (!(categoryId && title && content && link)) {
+      return next(createError(400));
+    }
 
     const userId = await Users.findOne()
       .where('uid')
@@ -17,7 +22,8 @@ const createStory = async (req, res, next) => {
     if (!userId) {
       return next(createError(400));
     }
-    console.log(userId, title, content, summary, link, thumbnail);
+    
+    const summary = content.slice(0, 200);
 
     const newStory = new Stories({
       userId,
@@ -31,16 +37,12 @@ const createStory = async (req, res, next) => {
 
     await newStory.save();
 
-    const user = await Users.findOneAndUpdate(
+    await Users.findOneAndUpdate(
       { _id: userId._id },
-      { $push: { stories: newStory._id } },
-      { new: true }
+      { $push: { stories: newStory._id } }
     );
 
-    res.json({
-      story: newStory,
-      user
-    });
+    res.send();
   } catch (err) {
     console.error(err);
     res.status(500).send();
@@ -82,8 +84,6 @@ const getStories = async (req, res, next) => {
         .where('title')
         .equals(category)
         .select('_id');
-
-      console.log(categoryId);
 
       if (sort === 'hottest') {
         stories = await Stories.find()
@@ -195,8 +195,6 @@ const toggleLike = async (req, res, next) => {
     const action = req.body.action;
     const method = action === 'remove' ? '$pull' : '$push';
 
-    console.log(storyId, action, uid);
-
     if (!(action && mongoose.Types.ObjectId.isValid(storyId))) {
       return next(createError(400));
     }
@@ -206,21 +204,11 @@ const toggleLike = async (req, res, next) => {
       .equals(uid)
       .select('_id uid username');
 
-    const testId = await Users.findOne()
-      .where('uid')
-      .equals('12312312313')
-      .select('_id');
-
-    console.log(storyId, testId, action);
-
     const story = await Stories.findOneAndUpdate({
       [method]: { like: user._id }
     })
       .where('_id')
       .equals(storyId);
-    console.log('action done');
-
-    console.log(story);
 
     res.json({
       user
