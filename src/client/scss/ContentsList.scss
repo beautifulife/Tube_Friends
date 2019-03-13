@@ -1,5 +1,6 @@
 .ContentsList {
   flex: 1;
+  min-width: 500px;
   margin: 0 1rem 1rem 1rem;
   padding: 1rem 2rem;
   border: 1px solid #eee;
@@ -9,7 +10,7 @@
 
   &__header {
     position: relative;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.2rem;
     padding: 0 0 0.9rem 0.5rem;
     border-bottom: 1px solid #eee;
     font-size: 1.1rem;
@@ -34,7 +35,7 @@
         border-bottom: 1px solid #eee;
 
         .header {
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.6rem;
           color: rgba(0, 0, 0, 0.4);
 
           span {
@@ -103,22 +104,35 @@
           display: flex;
 
           &__thumbnail {
-            img {
-              height: 100px;
+            div {
+              display:block;
+              width: 130px;
+              height: 90px;
+              background-size: cover;
+              background-position: center center;
             }
           }
 
           &__info {
-            padding: 0.3rem 1rem;
+            min-width: 300px;
+            padding: 0 1rem;
 
             .title {
-              margin-bottom: 0.5rem;
+              width: auto;
+              overflow: hidden;
+              margin: 0 0 0.5rem 0;
               font-size: 1.2rem;
               font-weight: bold;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
 
             .summary {
+              width: auto;
+              overflow: hidden;
               margin-bottom: 1rem;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
 
             .utils {

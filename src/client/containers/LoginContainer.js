@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Login from '../components/Login';
-import { deactivateLoginPage, logInError } from '../actions';
+import { authPageActivated, logInError } from '../actions';
 import { auth, provider } from '../utils/firebase';
 
 const mapDispatchToProps = dispatch => ({
   onCloseClick: () => {
-    dispatch(deactivateLoginPage());
+    dispatch(authPageActivated());
   },
   onGoogleSignIn: () => {
     auth

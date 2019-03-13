@@ -9,7 +9,7 @@ const createStory = async (req, res, next) => {
     const uid = res.locals.uid;
     const { categoryId, title, content, link } = req.body;
     const thumbnail = req.body.thumbnail || 'https://i.imgur.com/sshNOm6.png';
-    
+
     if (!(categoryId && title && content && link)) {
       return next(createError(400));
     }
@@ -22,7 +22,7 @@ const createStory = async (req, res, next) => {
     if (!userId) {
       return next(createError(400));
     }
-    
+
     const summary = content.slice(0, 200);
 
     const newStory = new Stories({
@@ -62,7 +62,7 @@ const getStories = async (req, res, next) => {
         stories = await Stories.find()
           .where('createdAt')
           .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
-          .sort('-like')
+          .sort('-like -createdAt')
           .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)
@@ -91,7 +91,7 @@ const getStories = async (req, res, next) => {
           .equals(categoryId._id)
           .where('createdAt')
           .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
-          .sort('-like')
+          .sort('-like -createdAt')
           .select('-content -link')
           .skip((page - 1) * 30)
           .limit(page * 30)

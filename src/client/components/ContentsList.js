@@ -23,8 +23,6 @@ export default class ContentsList extends Component {
       match: { params }
     } = this.props;
 
-    console.log(params);
-
     if (params.username) {
       return;
     }
@@ -40,8 +38,6 @@ export default class ContentsList extends Component {
       userId,
       match: { params }
     } = this.props;
-
-    console.log(params);
 
     if (params.username && userId !== prevProps.userId) {
       return onInitFeed(userId);
@@ -182,11 +178,11 @@ export default class ContentsList extends Component {
                   story._id
                 }`}
               >
-                <img src={`${story.thumbnail}`} alt={story.title} />
+                <div style={{ backgroundImage: `url(${story.thumbnail})`}} alt={story.title} />
               </Link>
             </div>
             <div className="main__info">
-              <p className="title">
+              <h2 className="title">
                 <Link
                   to={`/${story.categoryId.title}/${story.userId.username}/${
                     story._id
@@ -194,7 +190,7 @@ export default class ContentsList extends Component {
                 >
                   {story.title}
                 </Link>
-              </p>
+              </h2>
               <p className="summary">
                 <Link
                   to={`/${story.categoryId.title}/${story.userId.username}/${

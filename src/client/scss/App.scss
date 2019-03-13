@@ -18,6 +18,7 @@ body {
 
 a,
 input,
+textarea,
 button {
   all: unset;
 }
@@ -47,6 +48,6 @@ li {
     margin: 0 auto;
     margin-top: 1rem;
     max-width: 1400px;
-    height: 100%;
+    min-height: 100%;
   }
 }

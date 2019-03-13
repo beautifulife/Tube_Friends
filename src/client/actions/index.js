@@ -1,14 +1,28 @@
 import * as Types from './actionTypes';
-import { Type } from 'protobufjs';
 
-export const activateLoginPage = () => ({
-  type: Types.ACTIVATE_LOGIN_PAGE,
+export const authPageActivated = () => ({
+  type: Types.AUTH_PAGE_ACTIVATED,
   isLoginActive: true
 });
 
-export const deactivateLoginPage = () => ({
-  type: Types.DEACTIVATE_LOGIN_PAGE,
+export const authPageDeactivated = () => ({
+  type: Types.AUTH_PAGE_DEACTIVATED,
   isLoginActive: false
+});
+
+export const createStoryComplete = () => ({
+  type: Types.CREATE_STORY_COMPLETE,
+  isLoading: false,
+});
+
+export const createStoryError = () => ({
+  type: Types.CREATE_STORY_ERROR,
+  isLoading: false,
+});
+
+export const createStoryRequested = () => ({
+  type: Types.CREATE_STORY_REQUESTED,
+  isLoading: true,
 });
 
 export const fetchCategoriesComplete = categories => ({
@@ -92,7 +106,7 @@ export const likeToggleComplete = (likeAction, storyId, user) => ({
 });
 
 export const likeToggleError = () => ({
-  type: Type.LIKE_TOGGLE_ERROR,
+  type: Types.LIKE_TOGGLE_ERROR,
   isLoading: false
 });
 

@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import {
-  activateLoginPage,
+  authPageActivated,
   logInComplete,
   logInError,
   logInRequested,
@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
   onLoginClick: () => {
-    dispatch(activateLoginPage());
+    dispatch(authPageActivated());
   },
   onMenuToggle: isMenuActive => {
     dispatch(toggleMenu(!isMenuActive));

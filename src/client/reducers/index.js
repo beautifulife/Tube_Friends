@@ -23,9 +23,24 @@ const rootReducer = (state = initialState, action) => {
   const newState = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {
-  case Types.ACTIVATE_LOGIN_PAGE:
-  case Types.DEACTIVATE_LOGIN_PAGE:
+  case Types.AUTH_PAGE_ACTIVATED:
+  case Types.AUTH_PAGE_DEACTIVATED:
     newState.isLoginActive = action.isLoginActive;
+
+    return newState;
+
+  case Types.CREATE_STORY_COMPLETE:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.CREATE_STORY_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.CREATE_STORY_REQUESTED:
+    newState.isLoading = action.isLoading;
 
     return newState;
 
@@ -110,7 +125,7 @@ const rootReducer = (state = initialState, action) => {
         }
       }
 
-      if (Object.keys(newState.story)) {
+      if (Object.keys(newState.story).length) {
         newState.story.like.push(action.user);
       }
     } else {
@@ -128,7 +143,7 @@ const rootReducer = (state = initialState, action) => {
         }
       }
 
-      if (Object.keys(newState.story)) {
+      if (Object.keys(newState.story).length) {
         for (let i = 0; i < newState.story.like.length; i++) {
           if (newState.story.like[i]._id === action.user._id) {
             newState.story.like.splice(i, 1);
