@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import CreateStory from '../components/CreateStory';
 import {
   authPageActivated,
+  authRequestForbidden,
   createStoryComplete,
   createStoryError,
   createStoryRequested
@@ -16,6 +17,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSubmit: async (title, content, link, categoryId, thumbnail) => {
+    if (!auth.currentUser) {
+      return dispatch(authRequestForbidden());
+    }
+
     dispatch(createStoryRequested());
 
     try {

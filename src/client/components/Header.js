@@ -20,10 +20,6 @@ export default class Header extends Component {
     onInit(isLoginActive);
   }
 
-  componentDidUpdate() {
-    console.log(this.props);
-  }
-
   handleLoginClick(ev) {
     const { onLoginClick } = this.props;
 

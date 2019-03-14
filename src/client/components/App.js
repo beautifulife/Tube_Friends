@@ -3,8 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch,
-  Link
+  Switch
 } from 'react-router-dom';
 import HeaderContainer from '../containers/HeaderContainer';
 import CategoryContainer from '../containers/CategoryContainer';
@@ -25,10 +24,10 @@ export default class App extends Component {
           <div className="App__section">
             <Switch>
               <Redirect exact path="/" to="/hottest" />
-              <Route 
+              <Route
                 exact
                 path="/create"
-                render={(props) => (
+                render={props => (
                   <Fragment>
                     <HeaderContainer {...props} />
                     <CreateStoryConainer {...props} />
@@ -38,7 +37,7 @@ export default class App extends Component {
               <Route
                 exact
                 path="/:category/:username/:story_id"
-                render={(props) => (
+                render={props => (
                   <Fragment>
                     <HeaderContainer {...props} />
                     <StoryContainer {...props} />
@@ -48,7 +47,7 @@ export default class App extends Component {
               <Route
                 exact
                 path="/:username/feed"
-                render={(props) => (
+                render={props => (
                   <Fragment>
                     <HeaderContainer {...props} />
                     <CategoryContainer {...props} />
@@ -59,7 +58,7 @@ export default class App extends Component {
               <Route
                 exact
                 path="/:sort/:category"
-                render={(props) => (
+                render={props => (
                   <Fragment>
                     <HeaderContainer {...props} />
                     <CategoryContainer {...props} />
@@ -70,7 +69,7 @@ export default class App extends Component {
               <Route
                 exact
                 path="/:sort"
-                render={(props) => (
+                render={props => (
                   <Fragment>
                     <HeaderContainer {...props} />
                     <CategoryContainer {...props} />

@@ -24,7 +24,16 @@ const rootReducer = (state = initialState, action) => {
 
   switch (action.type) {
   case Types.AUTH_PAGE_ACTIVATED:
+    newState.isLoginActive = action.isLoginActive;
+
+    return newState;
+
   case Types.AUTH_PAGE_DEACTIVATED:
+    newState.isLoginActive = action.isLoginActive;
+
+    return newState;
+
+  case Types.AUTH_REQUEST_FORBIDDEN:
     newState.isLoginActive = action.isLoginActive;
 
     return newState;
@@ -50,6 +59,10 @@ const rootReducer = (state = initialState, action) => {
     return newState;
 
   case Types.FETCH_CATEGORIES_ERROR:
+
+    return newState;
+
+  case Types.FETCH_CATEGORIES_REQUESTED:
 
     return newState;
 
@@ -88,33 +101,6 @@ const rootReducer = (state = initialState, action) => {
 
     return newState;
 
-  case Types.LOG_IN_COMPLETE:
-    newState.isLoading = action.isLoading;
-    newState.isLoginActive = action.isLoginActive;
-    newState.isUserLoggedIn = action.isUserLoggedIn;
-    newState.accessToken = action.accessToken;
-    newState.photoURL = action.photoURL;
-    newState.subscribe = action.subscribe;
-    newState.subscriber = action.subscriber;
-    newState.uid = action.uid;
-    newState.userId = action.userId;
-    newState.username = action.username;
-
-    return newState;
-
-  case Types.LOG_IN_ERROR:
-    newState.isLoading = action.isLoading;
-
-    return newState;
-
-  case Types.LOG_IN_REQUESTED:
-    newState.isLoading = action.isLoading;
-
-    return newState;
-
-  case Types.LOG_OUT_COMPLETE:
-    return initialState;
-
   case Types.LIKE_TOGGLE_COMPLETE:
     if (action.likeAction === 'add') {
       for (let i = 0; i < newState.stories.length; i++) {
@@ -126,7 +112,9 @@ const rootReducer = (state = initialState, action) => {
       }
 
       if (Object.keys(newState.story).length) {
-        newState.story.like.push(action.user);
+        if (newState.story._id === action.storyId) {
+          newState.story.like.push(action.user);
+        }
       }
     } else {
       for (let i = 0; i < newState.stories.length; i++) {
@@ -168,11 +156,60 @@ const rootReducer = (state = initialState, action) => {
 
     return newState;
 
+  case Types.LOG_IN_COMPLETE:
+    newState.isLoading = action.isLoading;
+    newState.isLoginActive = action.isLoginActive;
+    newState.isUserLoggedIn = action.isUserLoggedIn;
+    newState.accessToken = action.accessToken;
+    newState.photoURL = action.photoURL;
+    newState.subscribe = action.subscribe;
+    newState.subscriber = action.subscriber;
+    newState.uid = action.uid;
+    newState.userId = action.userId;
+    newState.username = action.username;
+
+    return newState;
+
+  case Types.LOG_IN_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.LOG_IN_REQUESTED:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.LOG_OUT_COMPLETE:
+    return initialState;
+
+  case Types.MENU_TOGGLE:
+    newState.isMenuActive = action.isMenuActive;
+
+    return newState;
+
+  case Types.PROFILE_TOGGLE:
+    newState.isProfileActive = action.isProfileActive;
+
+    return newState;
+
   case Types.SEARCH_STORIES_COMPLETE:
+    newState.isLoading = action.isLoading;
     newState.stories = action.stories;
     newState.page = action.page;
 
     return newState;
+
+  case Types.SEARCH_STORIES_ERROR:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
+  case Types.SEARCH_STORIES_REQUESTED:
+    newState.isLoading = action.isLoading;
+
+    return newState;
+
 
   case Types.SUBSCRIPTION_TOGGLE_COMPLETE:
     newState.isLoading = action.isLoading;
@@ -187,16 +224,6 @@ const rootReducer = (state = initialState, action) => {
 
   case Types.SUBSCRIPTION_TOGGLE_REQUESTED:
     newState.isLoading = action.isLoading;
-
-    return newState;
-
-  case Types.TOGGLE_MENU:
-    newState.isMenuActive = action.isMenuActive;
-
-    return newState;
-
-  case Types.TOGGLE_PROFILE:
-    newState.isProfileActive = action.isProfileActive;
 
     return newState;
 

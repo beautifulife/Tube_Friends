@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { auth } from '../utils/firebase';
 import ContentsList from '../components/ContentsList';
 import {
+  authRequestForbidden,
   fetchStoriesComplete,
   fetchStoriesError,
   fetchStoriesRequested,
@@ -45,36 +46,39 @@ const mapDispatchToProps = dispatch => ({
       dispatch(fetchStoriesError());
     }
   },
-  onInitFeed: async (userId) => {
+  onInitFeed: async userId => {
+    if (!auth.currentUser) {
+      return dispatch(authRequestForbidden());
+    }
+
     dispatch(fetchStoriesRequested());
 
     try {
       const accessToken = JSON.parse(JSON.stringify(auth.currentUser))
         .stsTokenManager.accessToken;
 
-      let res = await fetch(
-        `/api/users/${userId}/feed?page=1`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+      let res = await fetch(`/api/users/${userId}/feed?page=1`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
         }
-      );
+      });
 
       if (res.status !== 200) {
         throw new Error(`responsed ${res.status}`);
       }
 
       res = await res.json();
-      dispatch(
-        fetchStoriesComplete(res.stories, 'feed', 'feed', res.page)
-      );
+      dispatch(fetchStoriesComplete(res.stories, 'feed', 'feed', res.page));
     } catch (err) {
       console.error(err);
       dispatch(fetchStoriesError());
     }
   },
   onLikeClick: async (didUserLike, storyId) => {
+    if (!auth.currentUser) {
+      return dispatch(authRequestForbidden());
+    }
+
     dispatch(likeToggleRequested());
 
     try {
@@ -98,13 +102,16 @@ const mapDispatchToProps = dispatch => ({
       res = await res.json();
 
       dispatch(likeToggleComplete(action, storyId, res.user));
-      console.log('done');
     } catch (err) {
       console.error(err);
       dispatch(likeToggleError());
     }
   },
   onSubscriptionClick: async (action, targetUserId) => {
+    if (!auth.currentUser) {
+      return dispatch(authRequestForbidden());
+    }
+
     dispatch(subscriptionToggleRequested());
 
     try {
@@ -126,10 +133,7 @@ const mapDispatchToProps = dispatch => ({
 
       res = await res.json();
 
-      dispatch(
-        subscriptionToggleComplete(res.subscribe)
-      );
-      console.log('done');
+      dispatch(subscriptionToggleComplete(res.subscribe));
     } catch (err) {
       console.error(err);
       dispatch(subscriptionToggleError());

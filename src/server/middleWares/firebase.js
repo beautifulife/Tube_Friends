@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const admin = require('firebase-admin');
-const serviceAccount = require('../../../serviceAccountKey.json');
+const serviceAccount = require('../configs/serviceAccountKey.json');
 
 // https://www.youtube.com/watch?v=WtYzHTXHBp0
 // https://www.youtube.com/watch?v=-OKrloDzGpU&t=577s
@@ -22,7 +22,7 @@ const verifyIdToken = async (req, res, next) => {
     next();
   } catch (err) {
     console.error('invalid token', err);
-    next(createError(400));
+    next(createError(403));
   }
 };
 

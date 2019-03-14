@@ -52,7 +52,6 @@
             position: relative;
             font-style: italic;
             color: rgba(0, 0, 0, 0.8);
-            
 
             &__modal {
               position: absolute;
@@ -105,7 +104,7 @@
 
           &__thumbnail {
             div {
-              display:block;
+              display: block;
               width: 130px;
               height: 90px;
               background-size: cover;

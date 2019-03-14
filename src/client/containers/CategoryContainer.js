@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Category from '../components/Category';
-import { fetchCategoriesComplete, fetchCategoriesError } from '../actions';
+import { fetchCategoriesComplete, fetchCategoriesError, fetchCategoriesRequested } from '../actions';
 
 const mapStateToProps = state => {
   const { categories, isUserLoggedIn, username } = state;
@@ -10,6 +10,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onInit: async () => {
+    dispatch(fetchCategoriesRequested());
+
     try {
       let res = await fetch('/api/categories');
 
@@ -18,9 +20,7 @@ const mapDispatchToProps = dispatch => ({
       }
 
       res = await res.json();
-      dispatch(
-        fetchCategoriesComplete(res.categories)
-      );
+      dispatch(fetchCategoriesComplete(res.categories));
     } catch (err) {
       dispatch(fetchCategoriesError());
       console.error(err);

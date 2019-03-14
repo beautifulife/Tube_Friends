@@ -22,11 +22,7 @@ export default class Category extends Component {
         return (
           <li
             key={category._id}
-            className={
-              params.category === category.title
-                ? 'active'
-                : null
-            }
+            className={params.category === category.title ? 'active' : null}
           >
             <Link to={`/${sort}/${category.title}`}>{category.title}</Link>
           </li>

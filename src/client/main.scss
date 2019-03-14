@@ -1,0 +1,17 @@
+$base-color: #ff0000;
+$background-color: #fcfcfc;
+$border-color: #dfdfdf;
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono|Lato:300,300i,400,400i');
+@import '../../node_modules/normalize-scss/sass/normalize/import-now';
+@import './components/scss/App';
+@import './components/scss/Category';
+@import './components/scss/ContentsList';
+@import './components/scss/CreateStory';
+@import './components/scss/Header';
+@import './components/scss/Login';
+@import './components/scss/Menu';
+@import './components/scss/Profile';
+@import './components/scss/SearchBar';
+@import './components/scss/Spinner';
+@import './components/scss/Story';

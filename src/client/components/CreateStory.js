@@ -30,7 +30,12 @@ export default class Story extends Component {
   checkFormCompletion() {
     const { title, content, link, category } = this.state;
 
-    if (title.trim() && content.trim() && link.trim() && category !== 'default') {
+    if (
+      title.trim() &&
+      content.trim() &&
+      link.trim() &&
+      category !== 'default'
+    ) {
       this.setState({
         isFormComplete: true
       });
@@ -80,7 +85,11 @@ export default class Story extends Component {
   renderCategories(categories) {
     return categories.map(category => {
       return (
-        <option key={category._id} value={category.title} data-id={category._id}>
+        <option
+          key={category._id}
+          value={category.title}
+          data-id={category._id}
+        >
           {category.title}
         </option>
       );

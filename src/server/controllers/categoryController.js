@@ -18,7 +18,6 @@ const getCategories = async (req, res, next) => {
 const _createCategories = async (req, res, next) => {
   const categories = req.body.items;
 
-  console.log(categories);
   try {
     await categories.forEach(async category => {
       try {

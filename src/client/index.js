@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-
-import './scss/main.scss';
+import './main.scss';
 import App from './components/App';
 import rootReducer from './reducers';
 import './utils/fontawsome';

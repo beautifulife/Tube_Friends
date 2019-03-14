@@ -6,8 +6,8 @@ import {
   logInComplete,
   logInError,
   logInRequested,
-  toggleMenu,
-  toggleProfile
+  menuToggle,
+  profileToggle
 } from '../actions';
 import { auth } from '../utils/firebase';
 
@@ -35,10 +35,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onInit: () => {
-    auth.onAuthStateChanged(async (user) => {
-      console.log('auth load', user);
+    auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log('log in again');
         dispatch(logInRequested());
 
         try {
@@ -55,9 +53,7 @@ const mapDispatchToProps = dispatch => ({
           }
 
           res = await res.json();
-          dispatch(
-            logInComplete(res.user, res.accessToken)
-          );
+          dispatch(logInComplete(res.user, res.accessToken));
         } catch (err) {
           console.error(err);
           dispatch(logInError());
@@ -71,14 +67,16 @@ const mapDispatchToProps = dispatch => ({
     dispatch(authPageActivated());
   },
   onMenuToggle: isMenuActive => {
-    dispatch(toggleMenu(!isMenuActive));
+    dispatch(menuToggle(!isMenuActive));
   },
   onProfileToggle: isProfileActive => {
-    dispatch(toggleProfile(!isProfileActive));
+    dispatch(profileToggle(!isProfileActive));
   }
 });
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+);

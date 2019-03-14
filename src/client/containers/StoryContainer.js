@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Story from '../components/Story';
 import {
+  authRequestForbidden,
   fetchStoryComplete,
   fetchStoryError,
   fetchStoryRequested,
@@ -39,6 +40,10 @@ const mapDispatchToProps = dispatch => ({
     }
   },
   onLikeClick: async (didUserLike, storyId) => {
+    if (!auth.currentUser) {
+      return dispatch(authRequestForbidden());
+    }
+
     dispatch(likeToggleRequested());
 
     try {
@@ -62,7 +67,6 @@ const mapDispatchToProps = dispatch => ({
       res = await res.json();
 
       dispatch(likeToggleComplete(action, storyId, res.user));
-      console.log('done');
     } catch (err) {
       console.error(err);
       dispatch(likeToggleError());
@@ -91,7 +95,6 @@ const mapDispatchToProps = dispatch => ({
       res = await res.json();
 
       dispatch(subscriptionToggleComplete(res.subscribe));
-      console.log('done');
     } catch (err) {
       console.error(err);
       dispatch(subscriptionToggleError());

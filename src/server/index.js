@@ -1,11 +1,8 @@
 const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
-
+require('./database/mongoose');
 const { verifyIdToken } = require('./middlewares/firebase');
 const verifyAccessToken = require('./middlewares/verifyAccessToken');
 const verifySearchKeyword = require('./middlewares/verifySearchKeyword');
-
 const {
   createStory,
   getStories,
@@ -23,17 +20,6 @@ const {
   _createCategories
 } = require('./controllers/categoryController');
 
-const { DB_URI } = process.env;
-
-mongoose.connect(DB_URI, { useNewUrlParser: true, useFindAndModify: false });
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('success db connect');
-});
-
 const app = express();
 
 app.use(express.static('dist'));
@@ -47,7 +33,12 @@ app.post('/api/categories/new', _createCategories);
 app.get('/api/stories', getStories);
 app.get('/api/stories/:story_id', getStory);
 app.post('/api/stories/new', verifyAccessToken, verifyIdToken, createStory);
-app.put('/api/stories/:story_id/like', verifyAccessToken, verifyIdToken, toggleLike);
+app.put(
+  '/api/stories/:story_id/like',
+  verifyAccessToken,
+  verifyIdToken,
+  toggleLike
+);
 app.get('/api/search', verifySearchKeyword, searchStories);
 
 app.get('/api/users/:user_id/feed', verifyAccessToken, verifyIdToken, getFeed);

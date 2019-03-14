@@ -1,21 +1,19 @@
 import { connect } from 'react-redux';
 import Login from '../components/Login';
-import { authPageActivated, logInError } from '../actions';
+import { authPageDeactivated, logInError } from '../actions';
 import { auth, provider } from '../utils/firebase';
 
 const mapDispatchToProps = dispatch => ({
   onCloseClick: () => {
-    dispatch(authPageActivated());
+    dispatch(authPageDeactivated());
   },
   onGoogleSignIn: () => {
-    auth
-      .signInWithPopup(provider)
-      .catch(err => {
-        console.log(err);
-        dispatch(logInError());
-        auth.signOut();
-        window.location.reload();
-      });
+    auth.signInWithPopup(provider).catch(err => {
+      console.error(err);
+      dispatch(logInError());
+      auth.signOut();
+      window.location.reload();
+    });
   }
 });
 

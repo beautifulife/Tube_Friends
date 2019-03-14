@@ -13,7 +13,6 @@ const authenticateUser = async (req, res, next) => {
   try {
     const user = await Users.findOne({ uid });
 
-    console.log(user, uid);
     if (user) {
       return res.json({
         user,
