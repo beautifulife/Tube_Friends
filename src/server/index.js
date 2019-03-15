@@ -1,4 +1,5 @@
 const express = require('express');
+const index = require('./routers');
 require('./database/mongoose');
 const { verifyIdToken } = require('./middlewares/firebase');
 const verifyAccessToken = require('./middlewares/verifyAccessToken');
@@ -49,4 +50,6 @@ app.put(
   toggleSubscribe
 );
 
-app.listen(5000, () => console.log('Listening on port 5000!'));
+app.use('/', index);
+
+app.listen(8080, () => console.log('Listening on port 8080!'));
