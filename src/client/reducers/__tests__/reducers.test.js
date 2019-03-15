@@ -1,31 +1,10 @@
 /* eslint-disable no-undef */
-import rootReducer from '../index';
+import rootReducer, { initialState } from '../index';
 import * as Types from '../../actions/actionTypes';
-
-const createInitialState = () => {
-  return {
-    isLoginActive: false,
-    isMenuActive: false,
-    isProfileActive: false,
-    isUserLoggedIn: false,
-    isLoading: false,
-    accessToken: '',
-    categories: [],
-    photoURL: '',
-    page: 0,
-    stories: [],
-    story: {},
-    subscribe: [],
-    subscriber: [],
-    userId: '',
-    uid: '',
-    username: ''
-  };
-};
 
 describe('reducers validate', () => {
   test('initial state validate', () => {
-    const state = createInitialState();
+    const state = initialState;
     const result = rootReducer(undefined, {});
 
     expect(result).toEqual(state);
@@ -37,7 +16,7 @@ describe('reducers validate', () => {
         type: Types.AUTH_PAGE_ACTIVATED,
         isLoginActive: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoginActive = true;
@@ -51,7 +30,7 @@ describe('reducers validate', () => {
         type: Types.AUTH_PAGE_DEACTIVATED,
         isLoginActive: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoginActive = false;
@@ -65,7 +44,7 @@ describe('reducers validate', () => {
         type: Types.AUTH_REQUEST_FORBIDDEN,
         isLoginActive: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoginActive = true;
@@ -81,7 +60,7 @@ describe('reducers validate', () => {
         type: Types.CREATE_STORY_COMPLETE,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -95,7 +74,7 @@ describe('reducers validate', () => {
         type: Types.CREATE_STORY_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -109,7 +88,7 @@ describe('reducers validate', () => {
         type: Types.CREATE_STORY_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -126,7 +105,7 @@ describe('reducers validate', () => {
         type: Types.FETCH_CATEGORIES_COMPLETE,
         categories
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.categories = categories;
@@ -140,7 +119,7 @@ describe('reducers validate', () => {
       const action = {
         type: Types.FETCH_CATEGORIES_ERROR
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       expect(result).not.toBe(state);
@@ -150,7 +129,7 @@ describe('reducers validate', () => {
       const action = {
         type: Types.FETCH_CATEGORIES_REQUESTED
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       expect(result).not.toBe(state);
@@ -168,7 +147,7 @@ describe('reducers validate', () => {
         page: 1,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.stories = stories;
@@ -187,7 +166,7 @@ describe('reducers validate', () => {
         type: Types.FETCH_STORIES_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -201,7 +180,7 @@ describe('reducers validate', () => {
         type: Types.FETCH_STORIES_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -219,9 +198,10 @@ describe('reducers validate', () => {
         isLoading: false,
         story
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
+      state.isLoading = false;
       state.story = story;
 
       expect(result).toEqual(state);
@@ -234,7 +214,7 @@ describe('reducers validate', () => {
         type: Types.FETCH_STORY_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -248,7 +228,7 @@ describe('reducers validate', () => {
         type: Types.FETCH_STORY_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -275,7 +255,7 @@ describe('reducers validate', () => {
         userId: 'test userId',
         username: 'test username'
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -300,7 +280,7 @@ describe('reducers validate', () => {
         type: Types.LOG_IN_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -314,7 +294,7 @@ describe('reducers validate', () => {
         type: Types.LOG_IN_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -327,11 +307,11 @@ describe('reducers validate', () => {
       const action = {
         type: Types.LOG_OUT_COMPLETE
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       expect(result).toEqual(state);
-      expect(result).not.toBe(state);
+      expect(result).toBe(state);
     });
   });
 
@@ -344,7 +324,7 @@ describe('reducers validate', () => {
         storyId: 'test storyId',
         user: { _id: 'test userId' }
       };
-      const state = createInitialState();
+      const state = initialState;
 
       state.stories = [{ _id: 'test storyId', like: [] }];
       state.story = { _id: 'test storyId', like: [] };
@@ -383,7 +363,7 @@ describe('reducers validate', () => {
         type: Types.LIKE_TOGGLE_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -397,7 +377,7 @@ describe('reducers validate', () => {
         type: Types.LIKE_TOGGLE_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -413,7 +393,7 @@ describe('reducers validate', () => {
         type: Types.MENU_TOGGLE,
         isMenuActive: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isMenuActive = true;
@@ -429,7 +409,7 @@ describe('reducers validate', () => {
         type: Types.PROFILE_TOGGLE,
         isProfileActive: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isProfileActive = true;
@@ -444,15 +424,16 @@ describe('reducers validate', () => {
       const action = {
         type: Types.SEARCH_STORIES_COMPLETE,
         isLoading: false,
-        stories: [{story: 'test story'}],
+        stories: [{ story: 'test story' }],
         page: 1
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
-      state.stories = [{story: 'test story'}];
+      state.isLoading = false;
+      state.stories = [{ story: 'test story' }];
       state.page = 1;
-
+      
       expect(result).toEqual(state);
       expect(result).not.toBe(state);
     });
@@ -462,7 +443,7 @@ describe('reducers validate', () => {
         type: Types.SEARCH_STORIES_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -476,7 +457,7 @@ describe('reducers validate', () => {
         type: Types.SEARCH_STORIES_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;
@@ -491,13 +472,13 @@ describe('reducers validate', () => {
       const action = {
         type: Types.SUBSCRIPTION_TOGGLE_COMPLETE,
         isLoading: false,
-        subscribe: [{user: 'test user'}]
+        subscribe: [{ user: 'test user' }]
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
-      state.subscribe = [{user: 'test user'}];
+      state.subscribe = [{ user: 'test user' }];
 
       expect(result).toEqual(state);
       expect(result).not.toBe(state);
@@ -508,7 +489,7 @@ describe('reducers validate', () => {
         type: Types.SUBSCRIPTION_TOGGLE_ERROR,
         isLoading: false
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = false;
@@ -522,7 +503,7 @@ describe('reducers validate', () => {
         type: Types.SUBSCRIPTION_TOGGLE_REQUESTED,
         isLoading: true
       };
-      const state = createInitialState();
+      const state = initialState;
       const result = rootReducer(state, action);
 
       state.isLoading = true;

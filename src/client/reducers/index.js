@@ -1,6 +1,6 @@
 import * as Types from '../actions/actionTypes';
 
-const initialState = {
+export const initialState = {
   isLoginActive: false,
   isMenuActive: false,
   isProfileActive: false,
