@@ -1,9 +1,10 @@
 const express = require('express');
 const index = require('./routers');
 require('./database/mongoose');
-const { verifyIdToken } = require('./middlewares/firebase');
-const verifyAccessToken = require('./middlewares/verifyAccessToken');
-const verifySearchKeyword = require('./middlewares/verifySearchKeyword');
+
+const verifyAccessToken = require('./middlewares/verifyAccessToken.js');
+const verifySearchKeyword = require('./middlewares/verifySearchKeyword.js');
+const verifyIdToken = require('./middlewares/firebase.js');
 const {
   createStory,
   getStories,
@@ -52,4 +53,4 @@ app.put(
 
 app.use('/', index);
 
-app.listen(8080, () => console.log('Listening on port 8080!'));
+app.listen(process.env.PORT || 8081, () => console.log('Listening on port 8080!'));
