@@ -81,6 +81,10 @@
 
     &__markdown {
       margin-bottom: 2rem;
+
+      .markdown {
+        line-height: 150%;
+      }
     }
 
     &__player {

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactMarkdown from 'react-markdown';
 import Spinner from './Spinner';
 
 export default class Story extends Component {
@@ -129,7 +130,7 @@ export default class Story extends Component {
             </div>
             <div className="Story__main">
               <div className="Story__main__markdown">
-                <p>{story.content}</p>
+                <ReactMarkdown source={story.content} className="markdown" />
               </div>
               <div className="Story__main__player">
                 <div>

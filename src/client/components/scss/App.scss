@@ -23,7 +23,7 @@ button {
   all: unset;
 }
 
-ul, p {
+p {
   margin: 0;
   padding: 0;
 }
@@ -31,10 +31,6 @@ ul, p {
 a,
 button {
   cursor: pointer;
-}
-
-li {
-  list-style: none;
 }
 
 .App {

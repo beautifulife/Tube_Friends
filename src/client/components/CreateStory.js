@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactMarkdown from 'react-markdown';
 import Spinner from './Spinner';
 
 export default class Story extends Component {
@@ -183,6 +184,9 @@ export default class Story extends Component {
             cancle
           </button>
         </form>
+        <div className="CreateStory__markdown">
+          <ReactMarkdown source={content} className="markdown" />
+        </div>
         {isLoading && <Spinner />}
       </div>
     );
