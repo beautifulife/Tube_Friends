@@ -5,7 +5,7 @@ const verifySearchKeyword = (req, res, next) => {
     let keyword = req.query.keyword;
 
     if (keyword.match(/[^a-zA-Z0-9\s]|\s\s/)) {
-      keyword = keyword.replace(/[^a-zA-Z0-9\s]/g, '');
+      keyword = keyword.replace(/[^a-zA-Z0-9가-힣\s]/g, '');
       keyword = keyword.replace(/\s\s/g, ' ');
 
       console.log('invalid character is mutated', keyword);

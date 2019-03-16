@@ -65,7 +65,7 @@ export default class Login extends Component {
                 disabled={isLoginOnProcess}
               >
                 <span className="Login__contents__google-btn__logo">
-                  <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
+                  <i className="fab fa-google-plus-g" />
                 </span>
                 <span>Sign up with Google</span>
               </button>
@@ -83,7 +83,7 @@ export default class Login extends Component {
                 onClick={this.handleLoginClick}
               >
                 <span className="Login__contents__google-btn__logo">
-                  <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
+                  <i className="fab fa-google-plus-g" />
                 </span>
                 <span>Log in with Google</span>
               </button>

@@ -23,7 +23,7 @@ export default class ContentsList extends Component {
       match: { params }
     } = this.props;
 
-    if (params.username) {
+    if (params.username || params.sort === 'search') {
       return;
     }
 
@@ -38,6 +38,10 @@ export default class ContentsList extends Component {
       userId,
       match: { params }
     } = this.props;
+
+    if (params.sort === 'search') {
+      return;
+    }
 
     if (params.username && userId !== prevProps.userId) {
       return onInitFeed(userId);
@@ -234,18 +238,18 @@ export default class ContentsList extends Component {
       sortType,
       match: { params }
     } = this.props;
-    const category = params.category || 'All Categories';
+    let category = params.category || 'All Categories';
 
     return (
       <div className="ContentsList">
         <div className="ContentsList__header">
-          {stories && stories.length ? (
+          {isLoading ? (
+            <span>...Loading</span>
+          ) : (
             <Fragment>
               <span>{sortType}</span>
               <span> : {category}</span>
             </Fragment>
-          ) : (
-            <span>...Loading</span>
           )}
           <button
             type="button"
@@ -261,7 +265,9 @@ export default class ContentsList extends Component {
         </div>
         <div className="ContentsList__main">
           <ul className="ContentsList__main__list">
-            {stories && stories.length ? this.renderStories() : null}
+            {stories && stories.length && !isLoading
+              ? this.renderStories()
+              : null}
           </ul>
         </div>
         {isLoading && <Spinner />}

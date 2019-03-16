@@ -71,7 +71,7 @@ export default class Story extends Component {
 
     return (
       <div className="Story">
-        {Object.keys(story).length ? (
+        {Object.keys(story).length && !isLoading ? (
           <Fragment>
             <div className="Story__header">
               <h1 className="Story__header__title">{story.title}</h1>

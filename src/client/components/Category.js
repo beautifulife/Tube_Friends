@@ -15,10 +15,11 @@ export default class Category extends Component {
       username,
       match: { params }
     } = this.props;
-    const sort = params.username ? 'hottest' : params.sort;
+    let sort = params.username ? 'hottest' : params.sort;
 
     const renderCategories = () => {
       return categories.map(category => {
+
         return (
           <li
             key={category._id}

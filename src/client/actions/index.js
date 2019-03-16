@@ -138,7 +138,8 @@ export const searchStoriesComplete = (stories, page) => ({
   type: Types.SEARCH_STORIES_COMPLETE,
   isLoading: false,
   stories,
-  page
+  page,
+  sortType: 'search'
 });
 
 export const searchStoriesError = () => ({

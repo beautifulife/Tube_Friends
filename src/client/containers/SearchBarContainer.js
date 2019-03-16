@@ -1,23 +1,30 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
-import { searchStoriesComplete, searchStoriesError, searchStoriesRequested } from '../actions';
+import {
+  searchStoriesComplete,
+  searchStoriesError,
+  searchStoriesRequested
+} from '../actions';
 
 const mapStateToProps = state => {
   return state;
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   onSubmit: async (inputValue, accessToken) => {
-    if (inputValue.match(/[^a-zA-Z0-9\s]|\s\s/)) {
-      inputValue = inputValue.replace(/[^a-zA-Z0-9\s]/g, '');
-      inputValue = inputValue.replace(/\s\s/g, ' ');
+    let keyword = inputValue;
+
+    if (keyword.match(/[^a-zA-Z0-9\s]|\s\s/)) {
+      keyword = keyword.replace(/[^a-zA-Z0-9가-힣\s]/g, '');
+      keyword = keyword.replace(/\s\s/g, ' ');
     }
 
-    if (inputValue.trim().length < 2) {
+    if (keyword.trim().length < 2) {
       return window.alert('at least 2 characters required');
     }
 
-    const uri = `/api/search?keyword=${inputValue}`;
+    const uri = `/api/search?keyword=${keyword}`;
     const encodedUri = encodeURI(uri);
 
     dispatch(searchStoriesRequested());
@@ -31,6 +38,7 @@ const mapDispatchToProps = dispatch => ({
 
       res = await res.json();
       dispatch(searchStoriesComplete(res.stories, res.page));
+      ownProps.history.push(`/search/${keyword}`);
     } catch (err) {
       dispatch(searchStoriesError());
       console.error(err);
@@ -38,7 +46,9 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchBar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchBar)
+);

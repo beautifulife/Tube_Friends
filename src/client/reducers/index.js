@@ -197,6 +197,7 @@ const rootReducer = (state = initialState, action) => {
     newState.isLoading = action.isLoading;
     newState.stories = action.stories;
     newState.page = action.page;
+    newState.sortType = action.sortType;
 
     return newState;
 

@@ -12,11 +12,6 @@ jobs:
           name: Show Current Branch
           command: echo ${CIRCLE_BRANCH}
       - run:
-          # Install AWS CLI
-          name: Install awscli
-          command: |
-            sudo pip install awsebcli --upgrade
-      - run:
           # Install yarn Dependencies
           name: Install yarn Dependencies
           command: |
@@ -29,6 +24,11 @@ jobs:
           # build file
           name: Build app (dist)
           command: yarn build
+      - run:
+          # Install AWS CLI
+          name: Install awscli
+          command: |
+            sudo pip install awsebcli --upgrade
       - run:
           # Create and Save AWS User Informations
           name: Create AWS credentials manually

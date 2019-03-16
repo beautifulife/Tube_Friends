@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import * as actionCreaters from '../index';
 import * as Types from '../actionTypes';
 
@@ -288,7 +287,8 @@ describe('action creaters', () => {
         type: Types.SEARCH_STORIES_COMPLETE,
         isLoading: false,
         stories,
-        page
+        page,
+        sortType: 'search'
       });
     });
 

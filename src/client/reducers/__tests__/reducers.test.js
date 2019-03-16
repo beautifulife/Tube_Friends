@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import rootReducer, { initialState } from '../index';
 import * as Types from '../../actions/actionTypes';
 
@@ -425,7 +424,8 @@ describe('reducers validate', () => {
         type: Types.SEARCH_STORIES_COMPLETE,
         isLoading: false,
         stories: [{ story: 'test story' }],
-        page: 1
+        page: 1,
+        sortType: 'search'
       };
       const state = initialState;
       const result = rootReducer(state, action);
@@ -433,6 +433,7 @@ describe('reducers validate', () => {
       state.isLoading = false;
       state.stories = [{ story: 'test story' }];
       state.page = 1;
+      state.sortType = 'search';
       
       expect(result).toEqual(state);
       expect(result).not.toBe(state);
