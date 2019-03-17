@@ -60,8 +60,6 @@ const getStories = async (req, res, next) => {
     if (category === 'all') {
       if (sort === 'hottest') {
         stories = await Stories.find()
-          .where('createdAt')
-          .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like -createdAt')
           .select('-content -link')
           .skip((page - 1) * 30)
@@ -89,8 +87,6 @@ const getStories = async (req, res, next) => {
         stories = await Stories.find()
           .where('categoryId')
           .equals(categoryId._id)
-          .where('createdAt')
-          .gt(new Date(Date.now() - 24 * 60 * 60 * 1000))
           .sort('-like -createdAt')
           .select('-content -link')
           .skip((page - 1) * 30)

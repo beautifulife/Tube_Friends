@@ -15,15 +15,15 @@ jobs:
           # Install yarn Dependencies
           name: Install yarn Dependencies
           command: |
-            sudo yarn install
+            sudo npm install
       - run:
           # Test codes
           name: Test code using jest
-          command: yarn test
+          command: npm run test
       - run:
           # build file
           name: Build app (dist)
-          command: yarn build
+          command: npm run build
       - run:
           # Install AWS CLI
           name: Install awscli
