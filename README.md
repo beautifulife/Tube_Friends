@@ -2,7 +2,8 @@
 
 ## Introduction
 
-![Tube_Friends](https://user-images.githubusercontent.com/41249563/55355179-8f100c80-5502-11e9-9170-d1679da81dbc.gif)
+![tube-friends](https://user-images.githubusercontent.com/41249563/55558472-1fc73200-5727-11e9-9c74-901575730e91.gif)
+[http://tube-friends.cf](http://tube-friends.cf)
 
 **Tube_Friends** is a YouTube curation service designed to solve the limitations of YouTube recommendation system which is based on popularity. Curators share curations on YouTube videos and subscribers subscribe to curators to consume curations.
 
